@@ -125,7 +125,7 @@ public class Parse_User {
 
                 if (currEmail.equals(email) && currPassword.equals(userPassword)) {
 
-                    Parse_model.getInstance().getUserClass().set_email(po.getString("Email"));
+                    Parse_model.getInstance().getUserClass().set_userName(po.getString("UserName"));
                     Parse_model.getInstance().getUserClass().set_userId(po.getObjectId());
 
                     ParseFile applicantResume = (ParseFile) po.get("picture");

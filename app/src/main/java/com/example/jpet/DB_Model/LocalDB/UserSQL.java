@@ -59,11 +59,12 @@ public class UserSQL {
                 String userPicture = cursor.getString(userPictureIndex);
                 String followersArray = cursor.getString(followersArrayIndex);
 
-                String[] followersNamesTemp = followersArray.split(" ");
                 ArrayList<String> followersNamesArray = new ArrayList<>();
-
-                for (String currFollow : followersNamesTemp) {
-                    followersNamesArray.add(currFollow);
+                if (followersArray != null) {
+                    String[] followersNamesTemp = followersArray.split(" ");
+                    for (String currFollow : followersNamesTemp) {
+                        followersNamesArray.add(currFollow);
+                    }
                 }
 
                 UserClass currUser = new UserClass(
