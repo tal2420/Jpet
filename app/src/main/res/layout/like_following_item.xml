@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#001fbaff">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="310dp"
+            android:layout_height="60dp"
+            android:layout_gravity="top">
+
+
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/follower_picture"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp" />
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="eliya_daida"
+                    android:fontFamily="sans-serif-thin"
+                    android:id="@+id/user_name"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="7dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="liked your photo"
+                    android:id="@+id/description"
+                    android:layout_marginTop="30dp" />
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="2 days"
+                    android:id="@+id/date"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="6dp"
+                    android:textColor="#f1696969"
+                    android:textSize="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/user_picture"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="9dp"
+                android:scaleType="centerCrop" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

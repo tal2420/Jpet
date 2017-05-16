@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jpet.LikeAndFollowing.LikeAndFollowingFragment"
+    android:orientation="vertical"
+    android:background="#121fbaff">
+
+    <FrameLayout
+        style="@style/GenericProgressBackground"
+        android:id="@+id/LikeAndFollowingLoadingPanel"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ProgressBar style="@style/GenericProgressIndicator"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="476dp"
+        android:id="@+id/listView"
+        android:layout_gravity="center_vertical|bottom|left"
+        android:divider="#b35f5f60"
+        android:dividerHeight="2px" />
+
+</LinearLayout>

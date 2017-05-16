@@ -1,0 +1,162 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/bar_buttons"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="10"
+        android:orientation="horizontal"
+        android:background="#ffdfdfdf"
+        >
+
+
+        <!-- HOME BUTTON-->
+        <FrameLayout
+            android:id="@+id/home_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp">
+
+            <Button
+                android:id="@+id/home_page"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/home_new"
+                android:backgroundTintMode="src_over"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:shadowColor="#fc000000"
+                android:singleLine="false"/>
+
+            <Button
+                android:id="@+id/home_page1"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@drawable/home_grey"
+                android:backgroundTintMode="src_over"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:shadowColor="#fc000000"
+                android:singleLine="false"/>
+        </FrameLayout>
+
+        <!-- SEARCH BUTTON-->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp">
+
+
+            <Button
+
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@drawable/search_new" />
+
+
+            <Button
+
+                android:id="@+id/search1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@drawable/search_grey" />
+        </FrameLayout>
+
+        <!-- CAMERA BUTTON-->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp">
+
+            <Button
+                android:id="@+id/camera"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@drawable/camera_new" />
+
+
+            <Button
+                android:id="@+id/camera1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@drawable/camera_grey" />
+
+
+        </FrameLayout>
+
+        <!--LIKE BUTTIN-->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp">
+
+            <Button
+                android:id="@+id/like"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/heart_new" />
+
+
+            <Button
+                android:id="@+id/like1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/heart_grey" />
+        </FrameLayout>
+
+        <!-- PROFILE BUTTON-->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp">
+
+
+            <Button
+                android:id="@+id/profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@drawable/profile_new" />
+
+
+            <Button
+                android:id="@+id/profile1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@drawable/profile_grey" />
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

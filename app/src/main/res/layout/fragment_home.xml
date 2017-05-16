@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jpet.Home.HomeFragment"
+    android:id="@+id/container">
+
+    <!-- TODO: Update blank fragment layout -->
+    <!--<ListView-->
+        <!--android:id="@+id/list_container"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--/>-->
+
+    <com.example.jpet.Home.PullToRefreshListView
+        android:id="@+id/list_container"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        />
+
+
+    <!-- This initially-hidden ImageView will hold the expanded/zoomed version of the
+         images above. Without transformations applied, it takes up the entire screen.
+         To achieve the "zoom" animation, this view's bounds are animated from the
+         bounds of the thumbnail buttons above, to its final laid-out bounds. The implementation
+         of this animation is in the ZoomActivity class. -->
+    <ImageView
+        android:id="@+id/expanded_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:contentDescription="description_zoom_touch_close" />
+
+
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        style="@style/GenericProgressBackground"
+        android:id="@+id/homeFragmentLoadingPanel">
+
+        <ProgressBar style="@style/GenericProgressIndicator"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            />
+    </FrameLayout>
+
+</FrameLayout>

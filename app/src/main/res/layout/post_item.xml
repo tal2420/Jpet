@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1c1fbaff"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_frame"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.example.jpet.Home.TouchHighlightImageButton
+                    android:id="@+id/userProfileImage"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:clickable="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/thumb1">
+
+                </com.example.jpet.Home.TouchHighlightImageButton>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:clickable="true"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="USER NAME"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/postTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="time"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp">
+
+
+            <TextView
+                android:id="@+id/mainText"
+                android:layout_width="fill_parent"
+                android:layout_height="50sp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="sans-serif-light"
+                android:paddingLeft="1dp"
+                android:paddingRight="5dp"
+                android:text="MAIN TEXT OF USER" />
+            <!--android:textDirection="anyRtl"-->
+
+
+        </ScrollView>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.example.jpet.Camera.ScalableImageView
+                android:id="@+id/postImageScalable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="15dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/list_frame"
+                android:paddingLeft="0.5dp"
+                android:paddingRight="0.5dp"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp">
+
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="17dp">
+
+                        <Button
+                            android:id="@+id/likeButton"
+                            android:layout_width="110dp"
+                            android:layout_height="22dp"
+                            android:background="@drawable/buttonshape"
+                            android:drawableLeft="@drawable/love_li"
+                            android:drawablePadding="-40dp"
+                            android:shadowColor="#C2C2C2"
+                            android:shadowDx="0"
+                            android:shadowDy="0"
+                            android:shadowRadius="5"
+                            android:text=" Like"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/likedButton"
+                            android:layout_width="110dp"
+                            android:layout_height="22dp"
+                            android:background="@drawable/buttonshape"
+                            android:drawableLeft="@drawable/love_red_li"
+                            android:drawablePadding="-40dp"
+                            android:shadowColor="#C2C2C2"
+                            android:shadowDx="0"
+                            android:shadowDy="0"
+                            android:shadowRadius="5"
+                            android:text=" Like"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp" />
+
+                    </FrameLayout>
+
+                    <Button
+                        android:id="@+id/commentButton"
+                        android:layout_width="110dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/buttonshape"
+                        android:drawableLeft="@drawable/comment_li"
+                        android:drawablePadding="-7dp"
+                        android:shadowColor="#C2C2C2"
+                        android:shadowDx="0"
+                        android:shadowDy="0"
+                        android:shadowRadius="5"
+                        android:singleLine="false"
+                        android:text=" Comments"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/delete"
+                            android:layout_width="30dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="31dp"
+                            android:background="@drawable/delete" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linear_main"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

@@ -1,0 +1,88 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jpet.loginFragment.LoginFragment"
+    android:background="#271fbaff"
+    >
+
+    <LinearLayout
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:weightSum="1"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
+
+
+        <EditText
+            android:layout_weight="0.25"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textview_email"
+            android:hint="Email" />
+
+        <EditText
+            android:layout_weight="0.25"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textview_password"
+            android:hint="Password" />
+
+        <LinearLayout
+            android:layout_weight="0.25"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="9dp"
+            android:weightSum="1">
+
+
+            <Button
+                android:layout_weight="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_signin"
+                android:text="Sign In"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/buttonshape"
+                android:shadowColor="#C2C2C2"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:singleLine="true"
+                android:paddingRight="5dp"/>
+
+
+            <Button
+                android:layout_weight="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_signup"
+                android:text="Sign Up"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/buttonshape"
+                android:shadowColor="#C2C2C2"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:singleLine="true"
+                android:paddingLeft="5dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_weight="0.25"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Login failed, please try again."
+            android:textColor="@android:color/holo_red_light"
+            android:id="@+id/loginError"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+</FrameLayout>
