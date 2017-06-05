@@ -29,4 +29,7 @@
     <string name="description_image_2">Image 2</string>
     <string name="description_zoom_touch_close">Expanded image (touch to close)</string>
 
+    <string name="facebook_app_id">732742943571561</string>
+    <string name="fb_login_protocol_scheme">fb732742943571561</string>
+
 </resources>

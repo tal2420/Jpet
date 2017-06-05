@@ -24,10 +24,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.jpet.DB_Model.Parse_model;
+import com.example.jpet.DEBUG;
 import com.example.jpet.MainActivity;
 import com.example.jpet.R;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 
 /**
@@ -66,20 +68,24 @@ public class CameraFragment extends Fragment {
 
         getActivity().getActionBar().setTitle("Adding New Post");
 
-        ((MainActivity)getActivity()).checkForPermissions(new String[]{android.Manifest.permission.CAMERA});
-
         viewImage = (ImageView) root.findViewById(R.id.viewImage);
         viewImage.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.noimage));
         mainString = (EditText) root.findViewById(R.id.mainString_txt);
-        hashTag = (EditText)root.findViewById(R.id.hash_tag);
-
+        hashTag = (EditText) root.findViewById(R.id.hash_tag);
 
 
         Button selectPhotoButton = (Button) root.findViewById(R.id.btnSelectPhoto);
         selectPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
+                ((MainActivity) getActivity()).confirmPermissions(new MainActivity.PermissionRequestCallback() {
+                    @Override
+                    public void onRequestResults(boolean hasPermissions, ArrayList<String> rejectedPermissions) {
+                        if (hasPermissions) {
+                            selectImage();
+                        }
+                    }
+                }, android.Manifest.permission.CAMERA);
             }
         });
 
@@ -88,17 +94,15 @@ public class CameraFragment extends Fragment {
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(_thePic != null ) {
+                if (_thePic != null) {
+                    DEBUG.MSG(getClass(), "addPost has clicked");
                     new postPic().execute();
 
                     getActivity().findViewById(R.id.camera1).setVisibility(View.VISIBLE);
                     getActivity().findViewById(R.id.camera).setVisibility(View.GONE);
                     getActivity().findViewById(R.id.home_page).setVisibility(View.VISIBLE);
                     getActivity().findViewById(R.id.home_page1).setVisibility(View.GONE);
-                }
-                else
-                {
+                } else {
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     alertDialog.setTitle("You must upload a picture before!");
                     alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
@@ -108,9 +112,7 @@ public class CameraFragment extends Fragment {
                         }
                     });
 
-
                     alertDialog.show();
-
                 }
             }
         });
@@ -124,6 +126,8 @@ public class CameraFragment extends Fragment {
         PostClass currPost;
 
         protected void onPreExecute() {
+
+            DEBUG.MSG(getClass(), "postPic AsyncTask is working");
             dialog = ProgressDialog.show(getActivity(), "", "Loading. Please wait...", true);
             //super.onPreExecute();
             currPost = new PostClass();
@@ -209,7 +213,7 @@ public class CameraFragment extends Fragment {
 
                 _thePic = data.getExtras().getParcelable("data");
 
-                if (_thePic == null ) {
+                if (_thePic == null) {
                     Toast.makeText(getActivity(), "Failed taking picture", Toast.LENGTH_SHORT).show();
                 }
 

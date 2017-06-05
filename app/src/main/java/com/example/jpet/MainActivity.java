@@ -1,25 +1,31 @@
 package com.example.jpet;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.jpet.Camera.CameraFragment;
 import com.example.jpet.Camera.PostClass;
@@ -35,13 +41,13 @@ import com.example.jpet.loginFragment.SignUpFragment;
 import com.example.jpet.profile.ProfileFragment;
 import com.example.jpet.profile.UpdateUserFragment;
 import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
-    private static final int MY_PERMISSIONS_REQUEST = 5245245;
+    private static final int PERMISSION_REQUEST_CODE = 5245245;
     static int INDEX = R.string.tab_index;
     int currentTab = 0;
     LikeAndFollowingFragment likeAndFollowingFragment = new LikeAndFollowingFragment();
@@ -62,6 +68,8 @@ public class MainActivity extends Activity {
 
     Bitmap noPostImageBitmap;
     Bitmap noProfilePictureBitmap;
+
+    Context context = this;
 
 
     public static HomeFragment getHomeFragment() {
@@ -298,6 +306,44 @@ public class MainActivity extends Activity {
 
         notificationFragToUserProfileFrag();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        askForPermissions();
+    }
+    public void askForPermissions(){
+        confirmPermissions(new MainActivity.PermissionRequestCallback() {
+            @Override
+            public void onRequestResults(boolean hasPermissions, ArrayList<String> rejectedPermissions) {
+                if (!hasPermissions) {
+                    new AlertDialog.Builder(context)
+                            .setTitle("הרשאות")
+                            .setMessage("אנא אשר הרשאות על מנת להשתמש באפליקציה")
+                            .setPositiveButton("אישור", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    askForPermissions();
+                                }
+                            })
+                            .setNegativeButton("לך אל הגדרות", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent();
+                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                    Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+                                    intent.setData(uri);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setCancelable(false)
+                            .create()
+                            .show();
+
+                }
+            }
+        }, android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     private int leftOrRight(int index) {
@@ -538,55 +584,77 @@ public class MainActivity extends Activity {
         return loginFragment;
     }
 
-    public void checkForPermissions(String[] permissions) {
-        // Here, thisActivity is the current activity
+    public static Bitmap getBitmapFromSource(int id) {
+        return BitmapFactory.decodeResource(ApplicationContextProvider.getContext().getResources(), id);
+    }
 
-        if (permissions == null || permissions.length == 0) return;
+    PermissionRequestCallback mPermissionRequestCallback;
 
-        boolean shouldAskForPermissions = false;
+    /**
+     * This function checks for permissions  and ask for them if not granted before
+     * @param callback for handling the result of the permissions's requests
+     * @param permissions a list of permissions to be requested
+     */
+    @SuppressLint("NewApi")
+    public void confirmPermissions(@NonNull PermissionRequestCallback callback,
+                                   @NonNull String... permissions) {
 
-        for (int i = 0; i < permissions.length; i++) {
-            if (ContextCompat.checkSelfPermission(this,
-                    permissions[i])
-                    != PackageManager.PERMISSION_GRANTED) {
-                shouldAskForPermissions = true;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            callback.onRequestResults(true, null);
+            return;
+        }
+
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(
+                    this, permission) != PackageManager.PERMISSION_GRANTED) {
+                mPermissionRequestCallback = callback;
+                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+                return;
             }
         }
 
-        if (shouldAskForPermissions) {
-            ActivityCompat.requestPermissions(this,
-                    permissions,
-                    MY_PERMISSIONS_REQUEST);
-        }
-
+        callback.onRequestResults(true, null);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
 
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+            if (grantResults.length > 0) {
+                ArrayList<String> rejectedPermissions = new ArrayList<>();
 
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                for (int i = 0; i < permissions.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        rejectedPermissions.add(permissions[i]);
+                    }
                 }
-                return;
-            }
 
-            // other 'case' lines to check for other
-            // permissions this app might request
+                mPermissionRequestCallback.onRequestResults(
+                        rejectedPermissions.isEmpty(), rejectedPermissions);
+            } else {
+                mPermissionRequestCallback.onRequestResults(false, null);
+            }
         }
     }
 
-    public static Bitmap getBitmapFromSource(int id) {
-        return BitmapFactory.decodeResource(ApplicationContextProvider.getContext().getResources(), id);
+    public interface PermissionRequestCallback {
+        void onRequestResults(boolean isEmpty, ArrayList<String> rejectedPermissions);
+    }
+
+    public void onPermissionDenied() {
+//        new ConnectAlertDialog.Builder(this)
+//                .setTitle(getString(R.string.all_permissions))
+//                .setMessage(getString(R.string.dialog_no_permissions))
+//                .setNegativeButton(getString(R.string.all_settings), new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        IntentHelper.launchApplicationSettingsForPackageName(BrandedActivity.this, BuildConfig.APPLICATION_ID);
+//                    }
+//                })
+//                .setPositiveButton(getString(R.string.all_confirm), null)
+//                .show();
     }
 }

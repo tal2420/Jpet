@@ -100,7 +100,7 @@ public class UpdateUserFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            progressDialog.hide();
+            progressDialog.dismiss();
             updatePasswordEditText.setText("");
             updateEmailEditText.setText("");
         }

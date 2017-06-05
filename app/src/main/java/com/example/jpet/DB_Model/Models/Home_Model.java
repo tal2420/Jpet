@@ -60,11 +60,14 @@ public class Home_Model {
         @Override
         protected Void doInBackground(Void... params) {
 
-            ArrayList<PostClass> LocalDBPostsArray = new ArrayList<>();
+            ArrayList<PostClass> LocalDBPostsArray;
 
             // Getting posts from local data base
             UserClass currUser = Parse_model.getInstance().getUserClass();
             followersList = ModelSql.getInstance().getFollowersArrayByUser(currUser);
+            if (followersList == null) {
+                followersList = new ArrayList<>();
+            }
             LocalDBPostsArray = ModelSql.getInstance().getAllPosts();
             if (followersList.size() != 0) {
                 if (LocalDBPostsArray.size() != 0) {
@@ -168,7 +171,7 @@ public class Home_Model {
             if (userPostsListLocalDB.size() != 0) {
                 userPostsListLocalDB = new CurrentDateTime().sortPostsArrayByDate(userPostsListLocalDB);
             }
-            onProgressUpdate(userPostsListLocalDB);
+            publishProgress(userPostsListLocalDB);
 
             // Getting user's posts from parse
             userPostsList = Parse_model.getInstance().getAllUserPosts(userName);
@@ -191,7 +194,7 @@ public class Home_Model {
                     Log.e("post not exist", "adding local DB");
                 }
             }
-            onProgressUpdate(userPostsList);
+            publishProgress(userPostsList);
             return null;
         }
 
@@ -224,7 +227,7 @@ public class Home_Model {
             if (post != null) {
                 postExist = true;
                 postsArray.add(post);
-                onProgressUpdate(postsArray);
+                publishProgress(postsArray);
             }
 
             // Downloading the updated post from past
@@ -232,7 +235,7 @@ public class Home_Model {
             post = Parse_model.getInstance().getPostById(postID);
 
             postsArray.add(post);
-            onProgressUpdate(postsArray);
+            publishProgress(postsArray);
 
             // Updating local data base
             if(!postExist){

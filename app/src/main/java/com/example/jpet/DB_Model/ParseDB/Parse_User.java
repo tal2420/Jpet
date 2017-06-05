@@ -9,7 +9,9 @@ import android.widget.Toast;
 import com.example.jpet.ApplicationContextProvider;
 import com.example.jpet.Camera.PostClass;
 import com.example.jpet.DB_Model.Parse_model;
+import com.example.jpet.DEBUG;
 import com.example.jpet.loginFragment.UserClass;
+import com.facebook.Profile;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -81,6 +83,45 @@ public class Parse_User {
 
     }
 
+    public boolean addNewFacebookUser() {
+        ParseObject po = new ParseObject("Users");
+        try {
+            Profile userFacebookProfile = Profile.getCurrentProfile();
+            if (userFacebookProfile == null) {
+                return false;
+            }
+
+            UserClass userClass = Parse_model.getInstance().getUserClass();
+
+            po.put("UserName", userClass.get_userName());
+            po.put("Password", userClass.get_password());
+            po.put("Email", userClass.get_email());
+            po.put("numFollowers", 0);
+
+            String UserID = getUserIdByUserName(userFacebookProfile.getId());
+            Parse_model.getInstance().getUserClass().set_userId(UserID);
+
+            //uploading profile pic
+            Bitmap fbUserPic = userClass.get_userPic();
+            if (fbUserPic != null) {
+                byte[] userPictureData = encodeToBase64(fbUserPic).getBytes();
+                ParseFile userPictureFile = new ParseFile("pic.txt", userPictureData);
+                po.put("picture", userPictureFile);
+            }
+
+//            byte[] data = CameraHelper.UriToBytes(fbUri);
+//            ParseFile file = new ParseFile("pic.txt", data);
+//            po.put("picture", file);
+
+            po.save();
+            Log.d("Parse SignUp:", "Signned Up Successfuly!");
+            return true;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public boolean addNewUser() {
         ParseObject po = new ParseObject("Users");
         String UserName = Parse_model.getInstance().getUserClass().get_userName();
@@ -115,6 +156,9 @@ public class Parse_User {
         String currEmail = Parse_model.getInstance().getUserClass().get_email();
         String currPassword = Parse_model.getInstance().getUserClass().get_password();
 
+        DEBUG.MSG(getClass(), "currEmail = " + currEmail);
+        DEBUG.MSG(getClass(), "currPassword = " + currPassword);
+
         ParseQuery<ParseObject> query = new ParseQuery("Users");
         try {
             List<ParseObject> result = query.find();
@@ -122,6 +166,10 @@ public class Parse_User {
 
                 String email = po.getString("Email");
                 String userPassword = po.getString("Password");
+
+                if (email == null || userPassword == null) {
+                    continue;
+                }
 
                 if (currEmail.equals(email) && currPassword.equals(userPassword)) {
 

@@ -139,6 +139,7 @@ public class UserSQL {
 
             String followersArray = cursor.getString(followersArrayIndex);
 
+            if (followersArray == null) return null;
             String[] followersNamesTemp = followersArray.split(" ");
 
 

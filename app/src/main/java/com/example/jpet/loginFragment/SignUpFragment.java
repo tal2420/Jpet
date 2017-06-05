@@ -189,11 +189,11 @@ public class SignUpFragment extends Fragment {
             } else {
                 // Sign up didn't succeed. Look at the ParseException
                 // to figure out what went wrong
-                progressDialog.hide();
+                progressDialog.dismiss();
                 errorDialog();
                 Log.e(getTag(), "Signing Up failed!");
             }
-            progressDialog.hide();
+            progressDialog.dismiss();
         }
     }
 
