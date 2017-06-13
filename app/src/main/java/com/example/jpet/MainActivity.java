@@ -20,7 +20,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +38,8 @@ import com.example.jpet.HashTags.HashTagFragment;
 import com.example.jpet.Home.HomeFragment;
 import com.example.jpet.LikeAndFollowing.LikeAndFollowingFragment;
 import com.example.jpet.Search.SearchFragment;
+import com.example.jpet.fragments.AnimalRegistrationFragment;
+import com.example.jpet.fragments.AnimalsFragment;
 import com.example.jpet.loginFragment.LoginFragment;
 import com.example.jpet.loginFragment.SignUpFragment;
 import com.example.jpet.profile.ProfileFragment;
@@ -46,7 +50,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
     private static final int PERMISSION_REQUEST_CODE = 5245245;
     static int INDEX = R.string.tab_index;
     int currentTab = 0;
@@ -56,12 +60,15 @@ public class MainActivity extends Activity {
     ProfileFragment profileFragment = new ProfileFragment();
     ProfileFragment otherProfileFragment = new ProfileFragment();
 
+    AnimalRegistrationFragment animalRegistrationFragment = new AnimalRegistrationFragment();
+
     static HomeFragment homeFragment = new HomeFragment();
     static SearchFragment searchFragment = new SearchFragment();
     static CameraFragment cameraFragment = new CameraFragment();
     static LoginFragment loginFragment = new LoginFragment();
     static SignUpFragment signUpFragment = new SignUpFragment();
     static UpdateUserFragment updateUserFragment = new UpdateUserFragment();
+    static AnimalsFragment animalsFragment = new AnimalsFragment();
 
     Fragment currentFragment;
     Context mContext;
@@ -70,7 +77,6 @@ public class MainActivity extends Activity {
     Bitmap noProfilePictureBitmap;
 
     Context context = this;
-
 
     public static HomeFragment getHomeFragment() {
         return homeFragment;
@@ -81,7 +87,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mContext = this.getBaseContext();
+        mContext = this;
 
         homeFragment.setHomoPage(1);
 
@@ -138,8 +144,13 @@ public class MainActivity extends Activity {
         home1.setVisibility(View.GONE);
 
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(47, 185, 245)));
+//        requestWindowFeature(FEA)
+
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(47, 185, 245)));
+        }
         //**************listeners****************
 
         home1.setOnClickListener(new View.OnClickListener() {
@@ -285,7 +296,10 @@ public class MainActivity extends Activity {
         // getActionBar().hide();
 
         //open the first fragment
-        openNewFrag(loginFragment);
+//        openNewFrag(loginFragment);
+//        openNewFrag(loginFragment);
+//        openNewFrag(animalRegistrationFragment);
+        openNewFrag(animalsFragment);
 
 
         LoginToHomePage();
@@ -313,7 +327,8 @@ public class MainActivity extends Activity {
         super.onResume();
         askForPermissions();
     }
-    public void askForPermissions(){
+
+    public void askForPermissions() {
         confirmPermissions(new MainActivity.PermissionRequestCallback() {
             @Override
             public void onRequestResults(boolean hasPermissions, ArrayList<String> rejectedPermissions) {
@@ -344,6 +359,21 @@ public class MainActivity extends Activity {
                 }
             }
         }, android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    public void hidePanelBar() {
+        findViewById(R.id.home_page).setVisibility(View.GONE);
+        findViewById(R.id.search).setVisibility(View.GONE);
+        findViewById(R.id.like).setVisibility(View.GONE);
+        findViewById(R.id.camera).setVisibility(View.GONE);
+        findViewById(R.id.profile).setVisibility(View.GONE);
+        findViewById(R.id.home_page1).setVisibility(View.GONE);
+        findViewById(R.id.search1).setVisibility(View.GONE);
+        findViewById(R.id.like1).setVisibility(View.GONE);
+        findViewById(R.id.camera1).setVisibility(View.GONE);
+        findViewById(R.id.profile1).setVisibility(View.GONE);
+
+        findViewById(R.id.bar_buttons).setVisibility(View.GONE);
     }
 
     private int leftOrRight(int index) {
@@ -476,7 +506,7 @@ public class MainActivity extends Activity {
 
                 Home_Model.getInstance().setPostsArrayList(1, null, null);
 
-                getActionBar().show();
+                getSupportActionBar().show();
             }
         });
     }

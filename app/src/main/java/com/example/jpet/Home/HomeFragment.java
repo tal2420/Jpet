@@ -220,7 +220,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        getActivity().getActionBar().setTitle("InstaShop");
+         ((MainActivity)getActivity()).getSupportActionBar().setTitle("InstaShop");
 
         getActivity().findViewById(R.id.home_page).setVisibility(View.VISIBLE);
         getActivity().findViewById(R.id.search).setVisibility(View.VISIBLE);

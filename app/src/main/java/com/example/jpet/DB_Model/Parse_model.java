@@ -13,6 +13,7 @@ import com.example.jpet.DB_Model.ParseDB.Parse_HashTag;
 import com.example.jpet.DB_Model.ParseDB.Parse_Like;
 import com.example.jpet.DB_Model.ParseDB.Parse_Notification;
 import com.example.jpet.DB_Model.ParseDB.Parse_Posts;
+import com.example.jpet.DB_Model.ParseDB.Parse_Settings;
 import com.example.jpet.DB_Model.ParseDB.Parse_User;
 import com.example.jpet.Home.CommentClass;
 import com.example.jpet.LikeAndFollowing.NotificationsOfPost;
@@ -43,6 +44,7 @@ public class Parse_model {
     Parse_HashTag parse_hashTag;
     Parse_User parse_user;
     Parse_Algorithem parse_algorithem;
+    Parse_Settings parse_settings;
 
 
     Parse_model() {
@@ -54,6 +56,7 @@ public class Parse_model {
         parse_hashTag = new Parse_HashTag();
         parse_user = new Parse_User();
         parse_algorithem = new Parse_Algorithem();
+        parse_settings = new Parse_Settings();
     }
 
     UserClass userClass = new UserClass();

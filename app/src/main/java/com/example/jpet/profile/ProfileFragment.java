@@ -217,7 +217,7 @@ public class ProfileFragment extends Fragment {
 
             //sets user name
             userNameTitle.setText(userNamePosts);
-            getActivity().getActionBar().setTitle(userNamePosts);
+             ((MainActivity)getActivity()).getSupportActionBar().setTitle(userNamePosts);
 
 
             //sets follow button visibility on
@@ -566,7 +566,7 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == getActivity().RESULT_OK) {
             //user is returning from capturing an image using the camera
-            if (requestCode == CAMERA_CAPTURE || requestCode == GALLERY) {
+            if (requestCode == CAMERA_CAPTURE) {// || requestCode == GALLERY) {
                 //get the Uri for the captured image
 
                 Bundle extras = data.getExtras();
@@ -599,7 +599,7 @@ public class ProfileFragment extends Fragment {
                 viewImage.setImageBitmap(userNamePicture);
 
             }
-        }
+    }
     }
 
     /**

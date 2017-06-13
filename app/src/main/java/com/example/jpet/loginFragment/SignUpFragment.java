@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 
 import com.example.jpet.DB_Model.Parse_model;
 import com.example.jpet.Home.HomeFragment;
+import com.example.jpet.MainActivity;
 import com.example.jpet.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -46,7 +47,7 @@ public class SignUpFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
-        getActivity().getActionBar().setTitle("SignUp");
+         ((MainActivity)getActivity()).getSupportActionBar().setTitle("SignUp");
 
         barButtons = (LinearLayout) getActivity().findViewById(R.id.bar_buttons);
         barButtons.setVisibility(View.GONE);

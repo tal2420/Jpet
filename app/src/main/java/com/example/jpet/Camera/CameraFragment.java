@@ -66,7 +66,7 @@ public class CameraFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_camera, container, false);
 
-        getActivity().getActionBar().setTitle("Adding New Post");
+         ((MainActivity)getActivity()).getSupportActionBar().setTitle("Adding New Post");
 
         viewImage = (ImageView) root.findViewById(R.id.viewImage);
         viewImage.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.noimage));

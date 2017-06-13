@@ -1,7 +1,6 @@
 package com.example.jpet.loginFragment;
 
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -11,11 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,7 +22,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.example.jpet.ApplicationContextProvider;
 import com.example.jpet.Constant;
 import com.example.jpet.DB_Model.ModelSql;
 import com.example.jpet.DB_Model.Parse_model;
@@ -36,15 +31,12 @@ import com.example.jpet.Network;
 import com.example.jpet.R;
 import com.example.jpet.helpers.CameraHelper;
 import com.example.jpet.helpers.ResourceHelper;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.LoginStatusCallback;
 import com.facebook.Profile;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.parse.ParseUser;
@@ -53,11 +45,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,7 +80,7 @@ public class LoginFragment extends Fragment {
 
         ParseUser.getCurrentUser().logOut();
 
-        getActivity().getActionBar().setTitle("LogIn");
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle("LogIn");
 
 
         barButtons = (LinearLayout) getActivity().findViewById(R.id.bar_buttons);

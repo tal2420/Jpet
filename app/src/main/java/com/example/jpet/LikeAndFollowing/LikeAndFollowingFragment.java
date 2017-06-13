@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.jpet.CurrentDateTime;
 import com.example.jpet.DB_Model.Parse_model;
+import com.example.jpet.MainActivity;
 import com.example.jpet.R;
 import com.example.jpet.profile.RoundImageClass;
 
@@ -70,7 +71,7 @@ public class LikeAndFollowingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_like_and_following, container, false);
 
-        getActivity().getActionBar().setTitle("Notifications");
+         ((MainActivity)getActivity()).getSupportActionBar().setTitle("Notifications");
 
         listView = (ListView) root.findViewById(R.id.listView);
 

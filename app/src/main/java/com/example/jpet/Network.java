@@ -1,5 +1,7 @@
 package com.example.jpet;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -13,9 +15,41 @@ import java.net.URL;
 
 public class Network {
 
+    public abstract static class NetworkCallBack {
+        public abstract Object doInBackground();
+        public void onPostExecute(Object object) {
+
+        }
+    }
+
     public interface ImageCallBack {
         void onSuccess(Bitmap bitmap);
         void onFailed();
+    }
+
+    public static void runOnThreadWithProgressDialog(final Context context, final NetworkCallBack networkCallBack) {
+        new AsyncTask<Object , Void, Object>() {
+            ProgressDialog progressDialog;
+
+            @Override
+            protected Object doInBackground(Object... params) {
+                return networkCallBack.doInBackground();
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressDialog = ProgressDialog.show(context, "", "Loading, please wait...", true);
+                progressDialog.show();
+            }
+
+            @Override
+            protected void onPostExecute(Object object) {
+                super.onPostExecute(object);
+                progressDialog.dismiss();
+                networkCallBack.onPostExecute(object);
+            }
+        }.execute();
     }
 
     public static void getImage(URL url, final ImageCallBack imageCallBack) {

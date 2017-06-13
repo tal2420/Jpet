@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.example.jpet.Camera.PostClass;
 import com.example.jpet.DB_Model.Parse_model;
 import com.example.jpet.Home.LoadPostBitmap;
+import com.example.jpet.MainActivity;
 import com.example.jpet.R;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class HashTagFragment extends Fragment {
          root = inflater.inflate(R.layout.fragment_hash_tag, container, false);
 
 
-        getActivity().getActionBar().setTitle(title.toString());
+         ((MainActivity)getActivity()).getSupportActionBar().setTitle(title.toString());
 
         adapter = new ImageAdapter(getActivity());
 

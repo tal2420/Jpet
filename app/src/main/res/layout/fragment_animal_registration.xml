@@ -1,0 +1,258 @@
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jpet.fragments.AnimalRegistrationFragment">
+
+    <TextView
+        android:id="@+id/headline"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Animal Registration"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_heightPercent="6%"
+        app:layout_marginTopPercent="1%" />
+
+    <ScrollView
+        android:id="@+id/form_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/headline"
+        app:layout_heightPercent="80%">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/pet_name_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Name of pet" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <EditText
+                    android:id="@+id/height"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Height (cm)"
+                    android:inputType="number" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Weight (kg)"
+                    android:inputType="number" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <EditText
+                android:id="@+id/birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:hint="Date of birthday" />
+
+            <Spinner
+                android:id="@+id/sex_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+            <Spinner
+                android:id="@+id/animal_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+            <Spinner
+                android:id="@+id/breed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+            <Spinner
+                android:id="@+id/sub_breed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+            <CheckBox
+                android:id="@+id/pedigree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:text="Does the animal pedigree?" />
+
+            <android.support.percent.PercentRelativeLayout
+                android:id="@+id/pedigree_certificate_upload_layout"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/pedigree_headline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Copy of pedigree certificate" />
+
+                <Button
+                    android:id="@+id/pedigree_button"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/pedigree_headline"
+                    android:text="+"
+                    android:textSize="40sp"
+                    app:layout_aspectRatio="100%"
+                    app:layout_widthPercent="50%" />
+
+                <ImageView
+                    android:id="@+id/pedigree_image_view"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/pedigree_headline"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/form_image"
+                    app:layout_aspectRatio="100%"
+                    app:layout_widthPercent="50%" />
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <CheckBox
+                android:id="@+id/train"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:text="Does the animal trained?" />
+
+            <android.support.percent.PercentRelativeLayout
+                android:id="@+id/trained_certificate_upload_layout"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/trained_headline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Copy of training certificate" />
+
+                <Button
+                    android:id="@+id/trained_button"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/trained_headline"
+                    android:text="+"
+                    android:textSize="40sp"
+                    app:layout_aspectRatio="100%"
+                    app:layout_widthPercent="50%" />
+
+                <ImageView
+                    android:id="@+id/trained_image_view"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/trained_headline"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/form_image"
+                    app:layout_aspectRatio="100%"
+                    app:layout_widthPercent="50%" />
+
+            </android.support.percent.PercentRelativeLayout>
+
+
+            <CheckBox
+                android:id="@+id/champion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:text="Does the animal champion?" />
+
+            <android.support.percent.PercentRelativeLayout
+                android:id="@+id/champion_certificate_upload_layout"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/champion_headline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Copy of champion certificate" />
+
+                <Button
+                    android:id="@+id/champion_button"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/champion_headline"
+                    android:text="+"
+                    android:textSize="40sp"
+                    app:layout_aspectRatio="100%"
+                    app:layout_widthPercent="50%" />
+
+                <ImageView
+                    android:id="@+id/champion_image_view"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/champion_headline"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/form_image"
+                    app:layout_aspectRatio="100%"
+                    app:layout_widthPercent="50%" />
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <CheckBox
+                android:id="@+id/neutered"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:text="Does the animal neuter?" />
+            <CheckBox
+                android:id="@+id/should_send_breeding_offers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:text="Should send requests for copulation?" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:text="Register pet"
+        app:layout_heightPercent="13%" />
+
+</android.support.percent.PercentRelativeLayout>

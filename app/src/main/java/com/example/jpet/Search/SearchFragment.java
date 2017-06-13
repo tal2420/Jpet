@@ -32,6 +32,7 @@ import com.example.jpet.DB_Model.Models.Search_Model;
 import com.example.jpet.DB_Model.Parse_model;
 import com.example.jpet.Home.HomeFragment;
 import com.example.jpet.Home.LoadPostBitmap;
+import com.example.jpet.MainActivity;
 import com.example.jpet.R;
 import com.example.jpet.Search.Algorithem.DataSet;
 import com.example.jpet.Search.Algorithem.SortUserPostsByPriority;
@@ -137,10 +138,10 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
         @Override
         public boolean onQueryTextChange(String newText) {
             if (TextUtils.isEmpty(newText)) {
-                getActivity().getActionBar().setSubtitle("");
+                 ((MainActivity)getActivity()).getSupportActionBar().setSubtitle("");
                 grid_currentQuery = null;
             } else {
-                getActivity().getActionBar().setSubtitle("");
+                 ((MainActivity)getActivity()).getSupportActionBar().setSubtitle("");
                 grid_currentQuery = newText;
 
             }
