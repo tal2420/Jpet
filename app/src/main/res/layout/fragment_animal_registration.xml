@@ -78,6 +78,41 @@
                 android:focusable="false"
                 android:hint="Date of birthday" />
 
+
+            <android.support.percent.PercentRelativeLayout
+                android:id="@+id/animal_profile_photo"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/profile_photo_headline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Profile Image" />
+
+                <Button
+                    android:id="@+id/add_profile_photo_button"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/profile_photo_headline"
+                    android:text="+"
+                    android:textSize="40sp"
+                    app:layout_aspectRatio="100%"
+                    app:layout_widthPercent="50%" />
+
+                <ImageView
+                    android:id="@+id/profile_image_view"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/profile_photo_headline"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/animal_profile_image"
+                    app:layout_aspectRatio="100%"
+                    app:layout_widthPercent="50%" />
+
+            </android.support.percent.PercentRelativeLayout>
+
             <Spinner
                 android:id="@+id/sex_input"
                 android:layout_width="match_parent"

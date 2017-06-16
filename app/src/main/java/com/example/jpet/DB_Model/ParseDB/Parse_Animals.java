@@ -1,16 +1,11 @@
 package com.example.jpet.DB_Model.ParseDB;
 
 import android.graphics.Bitmap;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.example.jpet.ApplicationContextProvider;
 import com.example.jpet.Contract;
 import com.example.jpet.DB_Model.Parse_model;
 import com.example.jpet.helpers.CameraHelper;
-import com.example.jpet.loginFragment.UserClass;
 import com.example.jpet.objects.Animal;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -25,19 +20,17 @@ import java.util.List;
 
 public class Parse_Animals {
 
-    public boolean addAnimalPicture(String columnName, String animalId, Bitmap pic) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(Contract.Animal.QUERY_NAME_STRING);
+    public static boolean addAnimalPicture(ParseObject animalParseObject, String columnName, Bitmap pic) {
 
         if (pic == null) {
             return false;
         }
 
         try {
-            ParseObject animal = query.get(animalId);
             byte[] data = CameraHelper.encodeToBase64(pic).getBytes();
             ParseFile file = new ParseFile("pic.txt", data);
-            animal.put(columnName, file);
-            animal.save();
+            animalParseObject.put(columnName, file);
+            animalParseObject.save();
             return true;
         } catch (ParseException e) {
             e.printStackTrace();
@@ -60,8 +53,27 @@ public class Parse_Animals {
         animalObject.put(Contract.Animal.HEIGHT_INT, animal.getHeight());
         animalObject.put(Contract.Animal.BIRTHDAY_DATE_LONG, animal.getBirthdayInMilliSec());
 
+        addAnimalPicture(animalObject, Contract.Animal.PROFILE_PICTURE_FILE, animal.getPhoto());
+
         animalObject.put(Contract.Animal.IS_PEDIGREE_BOOLEAN, animal.isPedigree());
-        animalObject.put(Contract.Animal.PEDIGREE_CERTIFICATE_PICTUE_FILE, animal.getPedigreeCertificatePicture());
+        if (animal.isPedigree()) {
+            addAnimalPicture(animalObject, Contract.Animal.PEDIGREE_CERTIFICATE_PICTURE_FILE, animal.getPedigreeCertificatePicture());
+        }
+
+        animalObject.put(Contract.Animal.IS_TRAINED_BOOLEAN, animal.isTrained());
+        if (animal.isTrained()) {
+            addAnimalPicture(animalObject, Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE, animal.getTrainingCertificatePicture());
+        }
+
+        animalObject.put(Contract.Animal.IS_CHAMPION_BOOLEAN, animal.isChampion());
+        if (animal.isChampion()) {
+            addAnimalPicture(animalObject, Contract.Animal.CHAMPION_CERTIFICATE_PICTURE_FILE, animal.getChampionCertificatePicture());
+        }
+
+        animalObject.put(Contract.Animal.IS_NEUTER_BOOLEAN, animal.isNeutered());
+        animalObject.put(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN, animal.isShouldSendBreedingOffers());
+
+
         try {
             animalObject.save();
             return true;
@@ -117,8 +129,8 @@ public class Parse_Animals {
                 if (animalObject.containsKey(Contract.Animal.IS_PEDIGREE_BOOLEAN)) {
                     animal.setPedigree(animalObject.getBoolean(Contract.Animal.IS_PEDIGREE_BOOLEAN));
                 }
-//                if (animalObject.containsKey(Contract.Animal.PEDIGREE_CERTIFICATE_PICTUE_FILE)) {
-//                    animal.setPetName(animalObject.getString(Contract.Animal.PEDIGREE_CERTIFICATE_PICTUE_FILE));
+//                if (animalObject.containsKey(Contract.Animal.PEDIGREE_CERTIFICATE_PICTURE_FILE)) {
+//                    animal.setPetName(animalObject.getString(Contract.Animal.PEDIGREE_CERTIFICATE_PICTURE_FILE));
 //                }
 
                 if (animalObject.containsKey(Contract.Animal.IS_TRAINED_BOOLEAN)) {

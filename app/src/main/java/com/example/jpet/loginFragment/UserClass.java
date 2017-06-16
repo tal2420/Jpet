@@ -11,7 +11,7 @@ public class UserClass {
 
     String _userName;
     String _password;
-    String _email;
+    String _email = "";
 
     Bitmap _userPic;
 

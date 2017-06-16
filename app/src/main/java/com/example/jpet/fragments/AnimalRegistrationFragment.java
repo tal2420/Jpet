@@ -14,7 +14,6 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +26,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.example.jpet.DB_Model.ParseDB.Parse_Animals;
 import com.example.jpet.MainActivity;
+import com.example.jpet.Network;
 import com.example.jpet.R;
 import com.example.jpet.SoftKeyboard;
 import com.example.jpet.managers.AnimalSettingsManager;
+import com.example.jpet.objects.Animal;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -56,7 +59,7 @@ public class AnimalRegistrationFragment extends Fragment {
 
     Calendar animalBirthDayCalendar = Calendar.getInstance();
 
-    String[] animalSexList = {"Sex", "Male", "Female"};
+    String[] animalSexList = {"Male", "Female"};
 
     CheckBox pedigreeCheckBox;
     CheckBox trainCheckBox;
@@ -82,6 +85,10 @@ public class AnimalRegistrationFragment extends Fragment {
     Bitmap trainedCertificateImage;
     Bitmap championCertificateImage;
 
+    Button uploadProfilePictureButton;
+    ImageView profileImageView;
+    Bitmap profileImage;
+
     //keep track of camera capture intent
     final int CAMERA_CAPTURE = 1;
     //keep track of cropping intent
@@ -91,7 +98,7 @@ public class AnimalRegistrationFragment extends Fragment {
 
     ImageType currentImageType;
     private enum ImageType {
-        Pedigree, champion, Trained
+        Pedigree, Champion, ProfilePicture, Trained
     }
 
     public AnimalRegistrationFragment() {
@@ -106,6 +113,9 @@ public class AnimalRegistrationFragment extends Fragment {
 
         mainLayout = root.findViewById(R.id.main_layout);
         registerButton = (Button) root.findViewById(R.id.register);
+
+        uploadProfilePictureButton = (Button) root.findViewById(R.id.add_profile_photo_button);
+        profileImageView = (ImageView) root.findViewById(R.id.profile_image_view);
 
         sexOfAnimalSpinner = (Spinner) root.findViewById(R.id.sex_input);
         animalTypesSpinner = (Spinner) root.findViewById(R.id.animal_type);
@@ -176,7 +186,14 @@ public class AnimalRegistrationFragment extends Fragment {
         championTakePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage(ImageType.champion);
+                selectImage(ImageType.Champion);
+            }
+        });
+
+        uploadProfilePictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage(ImageType.ProfilePicture);
             }
         });
 
@@ -286,6 +303,57 @@ public class AnimalRegistrationFragment extends Fragment {
                 boolean isNeuter = neuteredCheckBox.isChecked();
                 boolean shouldSendOffers = shouldSendBreedingOffersCheckBox.isChecked();
 
+                if (nameOfPetString.equals("") || heightOfPet.equals("") || weightOfPet.equals("") ||
+                        dateOfBirth == 0 || sex == null || animalType == null || breed == null ||
+                        subBreed == null || profileImage == null
+                        || (isPedigree && pedigreeCertificateImage == null)
+                        || (isTrained && trainedCertificateImage == null)
+                        || (isChampion && championCertificateImage == null)) {
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("שגיאה")
+                            .setMessage("אנא מלא את כל הנתונים")
+                            .setNeutralButton("אישור", null)
+                            .show();
+                    return;
+                }
+
+                final Animal animal = new Animal()
+                        .setPetName(nameOfPetString)
+                        .setHeight(Integer.valueOf(heightOfPet))
+                        .setWeight(Integer.valueOf(weightOfPet))
+                        .setBirthdayInMilliSec(dateOfBirth)
+                        .setSex(sex)
+                        .setPetType(animalType)
+                        .setBreed(breed)
+                        .setSubBreed(subBreed)
+                        .setPedigree(isPedigree)
+                        .setPedigreeCertificatePicture(pedigreeCertificateImage)
+                        .setTrained(isTrained)
+                        .setTrainingCertificatePicture(trainedCertificateImage)
+                        .setChampion(isChampion)
+                        .setChampionCertificatePicture(championCertificateImage)
+                        .setNeutered(isNeuter)
+                        .setShouldSendBreedingOffers(shouldSendOffers)
+                        .setPhoto(profileImage);
+
+                Network.runOnThreadWithProgressDialog(getActivity(), new Network.NetworkCallBack() {
+                    @Override
+                    public Object doInBackground() {
+                        return Parse_Animals.addAnimal(animal);
+                    }
+
+                    @Override
+                    public void onPostExecute(Object hasSucceed) {
+                        super.onPostExecute(hasSucceed);
+                        if ((boolean)hasSucceed) {
+                            // succeed adding animal to the DB
+                            ((MainActivity)getActivity()).openNewFrag(new AnimalsFragment());
+                        } else {
+                            // failed adding animal
+                            Toast.makeText(getActivity(), "failed adding animal", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
             }
         });
@@ -373,7 +441,7 @@ public class AnimalRegistrationFragment extends Fragment {
                         pedigreeCertificateImageView.setImageBitmap(pedigreeCertificateImage);
                         break;
 
-                    case champion:
+                    case Champion:
                         championCertificateImage = extras.getParcelable("data");
                         championCertificateImageView.setImageBitmap(championCertificateImage);
                         break;
@@ -381,6 +449,11 @@ public class AnimalRegistrationFragment extends Fragment {
                     case Trained:
                         trainedCertificateImage = extras.getParcelable("data");
                         trainedCertificateImageView.setImageBitmap(trainedCertificateImage);
+                        break;
+
+                    case ProfilePicture:
+                        profileImage = extras.getParcelable("data");
+                        profileImageView.setImageBitmap(profileImage);
                         break;
                 }
             }
@@ -398,7 +471,7 @@ public class AnimalRegistrationFragment extends Fragment {
                             pedigreeCertificateImageView.setImageBitmap(pedigreeCertificateImage);
                             break;
 
-                        case champion:
+                        case Champion:
                             championCertificateImage = selectedImage;
                             championCertificateImageView.setImageBitmap(championCertificateImage);
                             break;
@@ -407,9 +480,12 @@ public class AnimalRegistrationFragment extends Fragment {
                             trainedCertificateImage = selectedImage;
                             trainedCertificateImageView.setImageBitmap(trainedCertificateImage);
                             break;
+
+                        case ProfilePicture:
+                            profileImage = selectedImage;
+                            profileImageView.setImageBitmap(profileImage);
+                            break;
                     }
-
-
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }

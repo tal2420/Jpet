@@ -34,8 +34,10 @@ public class Contract {
 
         public static final String BIRTHDAY_DATE_LONG = "birth_date";
 
+        public static final String PROFILE_PICTURE_FILE = "profile_picture_file";
+
         public static final String IS_PEDIGREE_BOOLEAN = "is_pedigree";
-        public static final String PEDIGREE_CERTIFICATE_PICTUE_FILE = "pedigree_certificate_picture";
+        public static final String PEDIGREE_CERTIFICATE_PICTURE_FILE = "pedigree_certificate_picture";
 
         public static final String IS_TRAINED_BOOLEAN = "is_trained";
         public static final String TRAINED_CERTIFICATE_PICTUE_FILE = "trained_certificate_picture";
