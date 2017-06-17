@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.example.jpet.Contract;
 import com.example.jpet.DB_Model.Parse_model;
+import com.example.jpet.DEBUG;
 import com.example.jpet.helpers.CameraHelper;
 import com.example.jpet.objects.Animal;
 import com.parse.ParseException;
@@ -19,6 +20,58 @@ import java.util.List;
  */
 
 public class Parse_Animals {
+
+    public static boolean updateAnimal(Animal animal) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(Contract.Animal.QUERY_NAME_STRING);
+        query.whereEqualTo(Contract.Animal.ANIMAL_OBJECT_ID, animal.getAnimalId());
+        ParseObject animalObject = null;
+        try {
+            animalObject = query.getFirst();
+
+            if (animalObject == null) {
+                return false;
+            }
+
+            animalObject.put(Contract.Animal.USER_EMAIL_STRING, Parse_model.getInstance().getUserClass().get_email());
+
+            animalObject.put(Contract.Animal.NAME_STRING, animal.getPetName());
+            animalObject.put(Contract.Animal.SEX_STRING, animal.getSex());
+            animalObject.put(Contract.Animal.TYPE_STRING, animal.getPetType());
+            animalObject.put(Contract.Animal.BREED_STRING, animal.getBreed());
+            animalObject.put(Contract.Animal.SUB_BREED_STRING, animal.getSubBreed());
+            animalObject.put(Contract.Animal.WEIGHT_INT, animal.getWeight());
+            animalObject.put(Contract.Animal.HEIGHT_INT, animal.getHeight());
+            animalObject.put(Contract.Animal.BIRTHDAY_DATE_LONG, animal.getBirthdayInMilliSec());
+
+            addAnimalPicture(animalObject, Contract.Animal.PROFILE_PICTURE_FILE, animal.getPhoto());
+
+            animalObject.put(Contract.Animal.IS_PEDIGREE_BOOLEAN, animal.isPedigree());
+            if (animal.isPedigree()) {
+                addAnimalPicture(animalObject, Contract.Animal.PEDIGREE_CERTIFICATE_PICTURE_FILE, animal.getPedigreeCertificatePicture());
+            }
+
+            animalObject.put(Contract.Animal.IS_TRAINED_BOOLEAN, animal.isTrained());
+            if (animal.isTrained()) {
+                addAnimalPicture(animalObject, Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE, animal.getTrainingCertificatePicture());
+            }
+
+            animalObject.put(Contract.Animal.IS_CHAMPION_BOOLEAN, animal.isChampion());
+            if (animal.isChampion()) {
+                addAnimalPicture(animalObject, Contract.Animal.CHAMPION_CERTIFICATE_PICTURE_FILE, animal.getChampionCertificatePicture());
+            }
+
+            animalObject.put(Contract.Animal.IS_NEUTER_BOOLEAN, animal.isNeutered());
+            animalObject.put(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN, animal.isShouldSendBreedingOffers());
+
+            animalObject.save();
+            return true;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
 
     public static boolean addAnimalPicture(ParseObject animalParseObject, String columnName, Bitmap pic) {
 
@@ -37,6 +90,23 @@ public class Parse_Animals {
         }
 
         return false;
+    }
+
+    public static Bitmap getAnimalPicture(String animalId, String columnName) {
+
+        ParseQuery query = new ParseQuery(Contract.Animal.QUERY_NAME_STRING);
+        query = query.whereEqualTo(Contract.Animal.ANIMAL_OBJECT_ID, animalId);
+
+        try {
+            ParseFile parsePictureFile;
+            ParseObject currPostObject = query.getFirst();
+            parsePictureFile = (ParseFile) currPostObject.get(columnName);
+            String data = new String(parsePictureFile.getData());
+            return CameraHelper.decodeBase64(data);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static boolean addAnimal(Animal animal) {
@@ -86,7 +156,7 @@ public class Parse_Animals {
 
     public static ArrayList<Animal> getAllAnimalsByEmail(String email) {
         ArrayList<Animal> animals = new ArrayList<>();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(Contract.Animal.QUERY_NAME_STRING);
         query.whereEqualTo(Contract.Animal.USER_EMAIL_STRING, email);
         try {
             List<ParseObject> animalsObjects = query.find();
@@ -95,7 +165,11 @@ public class Parse_Animals {
                 Animal animal = new Animal(animalObject.getObjectId());
 
                 if (animalObject.containsKey(Contract.Animal.NAME_STRING)) {
-                    animal.setPetName(animalObject.getString(Contract.Animal.NAME_STRING));
+                    String petName = animalObject.getString(Contract.Animal.NAME_STRING);
+                    DEBUG.MSG(Parse_Animals.class, "animal name exists = " + petName);
+                    animal.setPetName(petName);
+                } else {
+                    DEBUG.MSG(Parse_Animals.class, "animal name NOT exists");
                 }
 
                 if (animalObject.containsKey(Contract.Animal.SEX_STRING)) {
@@ -134,29 +208,45 @@ public class Parse_Animals {
 //                }
 
                 if (animalObject.containsKey(Contract.Animal.IS_TRAINED_BOOLEAN)) {
-                    animal.setPetName(animalObject.getString(Contract.Animal.IS_TRAINED_BOOLEAN));
+                    animal.setTrained(animalObject.getBoolean(Contract.Animal.IS_TRAINED_BOOLEAN));
                 }
 //                if (animalObject.containsKey(Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE)) {
 //                    animal.setPetName(animalObject.getString(Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE));
 //                }
 
                 if (animalObject.containsKey(Contract.Animal.IS_CHAMPION_BOOLEAN)) {
-                    animal.setPetName(animalObject.getString(Contract.Animal.IS_CHAMPION_BOOLEAN));
+                    animal.setChampion(animalObject.getBoolean(Contract.Animal.IS_CHAMPION_BOOLEAN));
                 }
 //                if (animalObject.containsKey(Contract.Animal.CHAMPION_CERTIFICATE_PICTURE_FILE)) {
 //                    animal.setPetName(animalObject.getString(Contract.Animal.CHAMPION_CERTIFICATE_PICTURE_FILE));
 //                }
 
                 if (animalObject.containsKey(Contract.Animal.IS_NEUTER_BOOLEAN)) {
-                    animal.setPetName(animalObject.getString(Contract.Animal.IS_NEUTER_BOOLEAN));
+                    animal.setNeutered(animalObject.getBoolean(Contract.Animal.IS_NEUTER_BOOLEAN));
                 }
 
                 if (animalObject.containsKey(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN)) {
-                    animal.setPetName(animalObject.getString(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN));
+                    animal.setShouldSendBreedingOffers(animalObject.getBoolean(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN));
                 }
 
-                if (animalObject.containsKey(Contract.Animal.PHOTO_FILE)) {
-                    animal.setPetName(animalObject.getString(Contract.Animal.PHOTO_FILE));
+                if (animalObject.containsKey(Contract.Animal.PROFILE_PICTURE_FILE)) {
+                    Bitmap photo = getAnimalPicture(animalObject.getObjectId(), Contract.Animal.PROFILE_PICTURE_FILE);
+                    animal.setPhoto(photo);
+                }
+
+                if (animalObject.containsKey(Contract.Animal.PEDIGREE_CERTIFICATE_PICTURE_FILE)) {
+                    Bitmap pedigreePhoto = getAnimalPicture(animalObject.getObjectId(), Contract.Animal.PEDIGREE_CERTIFICATE_PICTURE_FILE);
+                    animal.setPedigreeCertificatePicture(pedigreePhoto);
+                }
+
+                if (animalObject.containsKey(Contract.Animal.CHAMPION_CERTIFICATE_PICTURE_FILE)) {
+                    Bitmap championPhoto = getAnimalPicture(animalObject.getObjectId(), Contract.Animal.CHAMPION_CERTIFICATE_PICTURE_FILE);
+                    animal.setPhoto(championPhoto);
+                }
+
+                if (animalObject.containsKey(Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE)) {
+                    Bitmap trainedPhoto = getAnimalPicture(animalObject.getObjectId(), Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE);
+                    animal.setPhoto(trainedPhoto);
                 }
 
                 animals.add(animal);

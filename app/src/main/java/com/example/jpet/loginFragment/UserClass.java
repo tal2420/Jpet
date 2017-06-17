@@ -2,6 +2,8 @@ package com.example.jpet.loginFragment;
 
 import android.graphics.Bitmap;
 
+import com.example.jpet.objects.Animal;
+
 import java.util.ArrayList;
 
 /**
@@ -12,16 +14,12 @@ public class UserClass {
     String _userName;
     String _password;
     String _email = "";
-
     Bitmap _userPic;
-
-
     ArrayList<String> followersArray = new ArrayList<>();
-
     String lastOn;
-
-
     String _userId;
+
+    ArrayList<Animal> animals = new ArrayList<>();
 
     public UserClass(String _userName, String _password, String _email, Bitmap _userPic, ArrayList<String> followersArray) {
         this._userName = _userName;
@@ -39,6 +37,15 @@ public class UserClass {
         this._password = _password;
         this._email = _email;
         this._userId = _userId;
+    }
+
+    public ArrayList<Animal> getAnimals() {
+        return animals;
+    }
+
+    public UserClass setAnimals(ArrayList<Animal> animals) {
+        this.animals = animals;
+        return this;
     }
 
     public String getLastOn() {

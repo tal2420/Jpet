@@ -15,4 +15,8 @@ public class Constant {
         public static final String PASSWORD_STRING = "password";
         public static final String EMAIL_STRING = "email";
     }
+
+    public class BundleKeys {
+        public static final String ANIMAL_POSITION_IN_ARRAY = "animalPositionInArray";
+    }
 }

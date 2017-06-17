@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class DEBUG {
 
-    private static final boolean debug = false;
+    private static final boolean debug = true;
 
     public static void MSG(Class c, String MSG) {
         if (debug) {

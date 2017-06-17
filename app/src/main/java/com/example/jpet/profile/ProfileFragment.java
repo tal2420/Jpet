@@ -41,13 +41,18 @@ import android.widget.Toast;
 import com.example.jpet.Camera.PostClass;
 import com.example.jpet.CurrentDateTime;
 import com.example.jpet.DB_Model.Models.Home_Model;
+import com.example.jpet.DB_Model.ParseDB.Parse_Animals;
 import com.example.jpet.DB_Model.Parse_model;
+import com.example.jpet.DEBUG;
 import com.example.jpet.Home.HomeFragment;
 import com.example.jpet.Home.LoadPostBitmap;
 import com.example.jpet.LikeAndFollowing.NotificationsOfPost;
 import com.example.jpet.MainActivity;
+import com.example.jpet.Network.Network;
 import com.example.jpet.R;
 import com.example.jpet.Search.SearchFragment;
+import com.example.jpet.fragments.AnimalsFragment;
+import com.example.jpet.objects.Animal;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -78,6 +83,8 @@ public class ProfileFragment extends Fragment {
     TextView userNameTitle;
     TextView followerNum;
     TextView followingNum;
+
+    Button animalsPageButton;
 
     Button followButton;
     Button editProfileButton;
@@ -154,6 +161,8 @@ public class ProfileFragment extends Fragment {
         galleryBtn_grey = (Button) root.findViewById(R.id.gallery_btn_grey);
         feedBtn_grey = (Button) root.findViewById(R.id.feed_btn_grey);
 
+        animalsPageButton = (Button) root.findViewById(R.id.animals_page_button);
+
         feedBtn.setVisibility(View.VISIBLE);
         feedBtn_grey.setVisibility(View.GONE);
         galleryBtn_grey.setVisibility(View.VISIBLE);
@@ -163,6 +172,28 @@ public class ProfileFragment extends Fragment {
         //    gridview2 = (GridView)root.findViewById(R.id.gridView);
         root.findViewById(R.id.profileFragmentLoadingPanel).setVisibility(View.GONE);
 
+        animalsPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Network.runOnThreadWithProgressDialog(getActivity(), new Network.NetworkCallBack() {
+                    @Override
+                    public Object doInBackground() {
+                        ArrayList<Animal> animals = Parse_Animals.getAllAnimalsByEmail(Parse_model.getInstance().getUserClass().get_email());
+                        Parse_model.getInstance().getUserClass().setAnimals(animals);
+                        DEBUG.MSG(getClass(), "animals size = " + animals.size());
+                        return true;
+                    }
+
+                    @Override
+                    public void onPostExecute(Object object) {
+                        super.onPostExecute(object);
+                        ((MainActivity)getActivity()).openNewFrag(new AnimalsFragment());
+                    }
+                });
+
+
+            }
+        });
 
         new IsFollowOrNotSetButton(userNamePosts, root).execute();
 
@@ -176,6 +207,7 @@ public class ProfileFragment extends Fragment {
         if (myProfile) {
             //Case 1: i enter into my profile
 
+            animalsPageButton.setVisibility(View.VISIBLE);
 
             //sets current user's profile image
             if (Parse_model.getInstance().getUserClass().get_userPic() == null) {
@@ -200,6 +232,8 @@ public class ProfileFragment extends Fragment {
             // sets edit post button's visibility ON
         } else {
             //Case 2: someone else enter into my profile
+
+            animalsPageButton.setVisibility(View.INVISIBLE);
 
             //sets the profile picture
             if (userNamePicture == null) {

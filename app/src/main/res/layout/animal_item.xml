@@ -1,8 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:id="@+id/main_layout"
+    android:layout_height="80dp"
+    android:padding="10dp">
 
-</LinearLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="60%"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp">
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/animal_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true">
+
+            <TextView
+                android:id="@+id/animal_name_text_view"
+                android:text="Name: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/animal_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="animal name"
+                android:layout_toRightOf="@+id/animal_name_text_view"
+                android:textColor="@color/black"
+                app:layout_marginLeftPercent="2%"
+                />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/animal_type_layout"
+            android:layout_below="@+id/animal_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true">
+
+            <TextView
+                android:id="@+id/animal_type_text_view"
+                android:text="Type: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/animal_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="animal type"
+                android:layout_toRightOf="@+id/animal_type_text_view"
+                android:textColor="@color/black"
+                app:layout_marginLeftPercent="2%"
+                />
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/animal_sex_layout"
+            android:layout_below="@+id/animal_type_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true">
+
+            <TextView
+                android:id="@+id/animal_sex_text_view"
+                android:text="Sex: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/animal_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="animal sex"
+                android:layout_toRightOf="@+id/animal_sex_text_view"
+                android:textColor="@color/black"
+                app:layout_marginLeftPercent="2%"
+                />
+        </android.support.percent.PercentRelativeLayout>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <ImageView
+        android:id="@+id/profile_picture"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/animal_profile_image"
+        android:layout_marginBottom="5dp"
+        app:layout_widthPercent="40%" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/grey"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
+        />
+
+</android.support.percent.PercentRelativeLayout>

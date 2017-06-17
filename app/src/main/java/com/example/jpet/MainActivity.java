@@ -296,10 +296,10 @@ public class MainActivity extends ActionBarActivity {
         // getActionBar().hide();
 
         //open the first fragment
-//        openNewFrag(loginFragment);
+        openNewFrag(loginFragment);
 //        openNewFrag(loginFragment);
 //        openNewFrag(animalRegistrationFragment);
-        openNewFrag(animalsFragment);
+//        openNewFrag(animalsFragment);
 
 
         LoginToHomePage();
@@ -518,7 +518,7 @@ public class MainActivity extends ActionBarActivity {
                 homeFragment.setHomoPage(1);
                 openNewFrag(homeFragment, 3);
                 Home_Model.getInstance().setPostsArrayList(1, null, null);
-                getActionBar().show();
+                getSupportActionBar().show();
             }
         });
     }

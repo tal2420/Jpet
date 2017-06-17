@@ -47,7 +47,6 @@ public class Contract {
 
         public static final String IS_NEUTER_BOOLEAN = "is_neuter";
         public static final String SHOULD_SEND_BREEDING_OFFERS_BOOLEAN = "should_send_breeding_offers";
-
-        public static final String PHOTO_FILE = "photo";
+        public static final String ANIMAL_OBJECT_ID = "objectId";
     }
 }

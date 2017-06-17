@@ -27,7 +27,7 @@ import com.example.jpet.DB_Model.ModelSql;
 import com.example.jpet.DB_Model.Parse_model;
 import com.example.jpet.DEBUG;
 import com.example.jpet.MainActivity;
-import com.example.jpet.Network;
+import com.example.jpet.Network.Network;
 import com.example.jpet.R;
 import com.example.jpet.helpers.CameraHelper;
 import com.example.jpet.helpers.ResourceHelper;

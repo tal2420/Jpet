@@ -2,13 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.jpet.fragments.AnimalsFragment">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/animals_recycler_view"
+        android:layout_width="match_parent"
+        app:layout_heightPercent="90%"
+        />
 
     <Button
         android:id="@+id/sign_up_animal_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign up an animal, now!"
+        android:layout_width="match_parent"
+        app:layout_heightPercent="10%"
+        android:text="Sign up new animal"
         android:textAllCaps="false"
         android:layout_alignParentBottom="true"
         />

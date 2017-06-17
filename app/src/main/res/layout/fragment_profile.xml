@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.jpet.profile.ProfileFragment">
 
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -127,58 +126,70 @@
 
                 </LinearLayout>
 
-
-                <!-- follow buttons-->
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp">
+                    android:layout_height="33dp">
+
+                    <!-- follow buttons-->
+                    <FrameLayout
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/follow_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/buttonshapewhite"
+                            android:shadowColor="#C2C2C2"
+                            android:shadowDx="0"
+                            android:shadowDy="0"
+                            android:shadowRadius="5"
+                            android:singleLine="true"
+                            android:text=" Follow"
+                            android:textColor="#FFFFFF" />
+
+                        <Button
+                            android:id="@+id/following_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/buttonshape"
+                            android:drawableStart="@drawable/vi"
+                            android:shadowColor="#C2C2C2"
+                            android:shadowDx="0"
+                            android:shadowDy="0"
+                            android:shadowRadius="5"
+                            android:singleLine="true"
+                            android:text=" Following"
+                            android:textColor="#FFFFFF"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/editProfile_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/buttonshape"
+                            android:shadowColor="#C2C2C2"
+                            android:shadowDx="0"
+                            android:shadowDy="0"
+                            android:shadowRadius="5"
+                            android:singleLine="true"
+                            android:text=" Edit Profile"
+                            android:textColor="#FFFFFF"
+
+                            android:visibility="gone" />
+
+                    </FrameLayout>
 
                     <Button
-                        android:id="@+id/follow_btn"
+                        android:id="@+id/animals_page_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/buttonshapewhite"
-                        android:shadowColor="#C2C2C2"
-                        android:shadowDx="0"
-                        android:shadowDy="0"
-                        android:shadowRadius="5"
-                        android:singleLine="true"
-                        android:text=" Follow"
-                        android:textColor="#FFFFFF" />
+                        android:layout_weight="1"
+                        android:text="Animals"
+                        android:textSize="12sp"/>
 
-                    <Button
-                        android:id="@+id/following_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/buttonshape"
-                        android:drawableStart="@drawable/vi"
-                        android:shadowColor="#C2C2C2"
-                        android:shadowDx="0"
-                        android:shadowDy="0"
-                        android:shadowRadius="5"
-                        android:singleLine="true"
-                        android:text=" Following"
-                        android:textColor="#FFFFFF"
-                        android:visibility="gone" />
-
-                    <Button
-                        android:id="@+id/editProfile_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/buttonshape"
-                        android:shadowColor="#C2C2C2"
-                        android:shadowDx="0"
-                        android:shadowDy="0"
-                        android:shadowRadius="5"
-                        android:singleLine="true"
-                        android:text=" Edit Profile"
-                        android:textColor="#FFFFFF"
-
-                        android:visibility="gone" />
-
-
-                </FrameLayout>
-
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -254,8 +265,6 @@
         </FrameLayout>
 
     </LinearLayout>
-
-
 
     <FrameLayout
         android:id="@+id/profileFragmentLoadingPanel"

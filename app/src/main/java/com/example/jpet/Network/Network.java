@@ -1,4 +1,4 @@
-package com.example.jpet;
+package com.example.jpet.Network;
 
 import android.app.ProgressDialog;
 import android.content.Context;
