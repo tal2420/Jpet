@@ -11,6 +11,16 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        myCustomDebug  {
+            storeFile file("KeystoreCertificates/myCertificates")
+            storePassword "android"
+            keyAlias "android"
+            keyPassword "android"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
