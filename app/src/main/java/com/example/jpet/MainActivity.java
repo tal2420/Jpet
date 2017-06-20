@@ -18,6 +18,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -51,7 +52,7 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
-    private static final int PERMISSION_REQUEST_CODE = 5245245;
+    private static final int PERMISSION_REQUEST_CODE = 5245;
     static int INDEX = R.string.tab_index;
     int currentTab = 0;
     LikeAndFollowingFragment likeAndFollowingFragment = new LikeAndFollowingFragment();
@@ -320,12 +321,19 @@ public class MainActivity extends ActionBarActivity {
 
         notificationFragToUserProfileFrag();
 
+        askForPermissions();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        askForPermissions();
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        askForPermissions();
+//        askForPermissions();
     }
 
     public void askForPermissions() {
@@ -349,7 +357,7 @@ public class MainActivity extends ActionBarActivity {
                                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                     Uri uri = Uri.fromParts("package", context.getPackageName(), null);
                                     intent.setData(uri);
-                                    startActivity(intent);
+                                    startActivityForResult(intent, PERMISSION_REQUEST_CODE);
                                 }
                             })
                             .setCancelable(false)
@@ -668,6 +676,19 @@ public class MainActivity extends ActionBarActivity {
             } else {
                 mPermissionRequestCallback.onRequestResults(false, null);
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (resultCode != Activity.RESULT_OK) {
+                    askForPermissions();
+                }
+                break;
         }
     }
 
