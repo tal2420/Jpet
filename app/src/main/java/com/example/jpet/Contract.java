@@ -6,6 +6,15 @@ package com.example.jpet;
 
 public class Contract {
 
+    public class User {
+        public static final String IS_FACEBOOK_USER = "is_facebook_user";
+        public static final String IS_ADMIN = "is_admin";
+    }
+
+    public class Post {
+        public static final String IS_ADVERTISEMENT = "is_advertisement";
+    }
+
     public class AnimalSettings {
 
         public static final String ANIMALS_TYPES_TABLE_NAME = "AnimalTypes";
