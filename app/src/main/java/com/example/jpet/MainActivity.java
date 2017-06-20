@@ -412,11 +412,12 @@ public class MainActivity extends ActionBarActivity {
 //        Parse.initialize(this, "GtPBrxcaTATmSsh4x9MoFJJg5U5ti29OandonYl8", "vXOLVE9RKbIg0VlzFX5m1moqeig7zoyFEml5lgl8");
 
         Parse.enableLocalDatastore(this);
+        String ip = "192.168.1.63";
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("APPLICATION_ID")
                 .clientKey(null)
-                .server("http://192.168.1.63:1337/parse/")
+                .server("http://" + ip + ":1337/parse/")
                 .build()
         );
 

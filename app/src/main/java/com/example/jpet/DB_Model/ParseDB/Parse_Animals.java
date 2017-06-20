@@ -246,7 +246,7 @@ public class Parse_Animals {
 
                 if (animalObject.containsKey(Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE)) {
                     Bitmap trainedPhoto = getAnimalPicture(animalObject.getObjectId(), Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE);
-                    animal.setPhoto(trainedPhoto);
+                    animal.setTrainingCertificatePicture(trainedPhoto);
                 }
 
                 animals.add(animal);

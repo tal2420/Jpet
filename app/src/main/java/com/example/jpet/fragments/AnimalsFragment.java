@@ -117,11 +117,35 @@ public class AnimalsFragment extends Fragment {
             animalViewHolder.mainLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AnimalRegistrationFragment animalRegistrationFragment = new AnimalRegistrationFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.BundleKeys.ANIMAL_POSITION_IN_ARRAY, holder.getAdapterPosition());
-                    animalRegistrationFragment.setArguments(bundle);
-                    ((MainActivity)getActivity()).openNewFrag(animalRegistrationFragment);
+                    Network.runOnThreadWithProgressDialog(getActivity(), new Network.NetworkCallBack() {
+
+                        @Override
+                        public Object doInBackground() {
+                            AnimalSettingsManager.breedTypes = Parse_Settings.getAnimalsSettingsByName(
+                                    Contract.AnimalSettings.BREED_TABLE_NAME,
+                                    Contract.AnimalSettings.BREED_COLUMN);
+
+                            AnimalSettingsManager.subBreedTypes = Parse_Settings.getAnimalsSettingsByName(
+                                    Contract.AnimalSettings.SUB_BREED_TABLE_NAME,
+                                    Contract.AnimalSettings.SUB_BREED_COLUMN);
+
+                            AnimalSettingsManager.animalTypes = Parse_Settings.getAnimalsSettingsByName(
+                                    Contract.AnimalSettings.ANIMALS_TYPES_TABLE_NAME,
+                                    Contract.AnimalSettings.ANIMALS_TYPES_COLUMN);
+
+                            return null;
+                        }
+
+                        @Override
+                        public void onPostExecute(Object object) {
+                            super.onPostExecute(object);
+                            AnimalRegistrationFragment animalRegistrationFragment = new AnimalRegistrationFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putInt(Constant.BundleKeys.ANIMAL_POSITION_IN_ARRAY, holder.getAdapterPosition());
+                            animalRegistrationFragment.setArguments(bundle);
+                            ((MainActivity)getActivity()).openNewFrag(animalRegistrationFragment);
+                        }
+                    });
                 }
             });
         }

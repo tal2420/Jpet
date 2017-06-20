@@ -1,7 +1,9 @@
 package com.example.jpet.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Fragment;
 import android.app.Service;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -10,7 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
@@ -31,13 +32,13 @@ import android.widget.Toast;
 import com.example.jpet.Constant;
 import com.example.jpet.DB_Model.ParseDB.Parse_Animals;
 import com.example.jpet.DB_Model.Parse_model;
+import com.example.jpet.DEBUG;
 import com.example.jpet.MainActivity;
 import com.example.jpet.Network.Network;
 import com.example.jpet.R;
 import com.example.jpet.SoftKeyboard;
 import com.example.jpet.managers.AnimalSettingsManager;
 import com.example.jpet.objects.Animal;
-import com.parse.Parse;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -355,8 +356,14 @@ public class AnimalRegistrationFragment extends Fragment {
                     @Override
                     public Object doInBackground() {
 
-                        if (animalPositionInArray != -1) {
-                            return Parse_Animals.updateAnimal(animal);
+                        if (animalPositionInArray >= 0) {
+                            if (Parse_Animals.updateAnimal(animal)) {
+                                Parse_model.getInstance().getUserClass().setAnimals(
+                                        Parse_Animals.getAllAnimalsByEmail(
+                                                Parse_model.getInstance().getUserClass().get_email()));
+                                return true;
+                            }
+                            return false;
                         }
                         return Parse_Animals.addAnimal(animal);
                     }
@@ -364,10 +371,13 @@ public class AnimalRegistrationFragment extends Fragment {
                     @Override
                     public void onPostExecute(Object hasSucceed) {
                         super.onPostExecute(hasSucceed);
-                        if ((boolean)hasSucceed) {
-                            // succeed adding animal to the DB
-                            Parse_model.getInstance().getUserClass().getAnimals().add(animal);
-                            ((MainActivity)getActivity()).openNewFrag(new AnimalsFragment());
+                        if ((boolean) hasSucceed) {
+                            // succeed adding/updating animal to the DB
+
+                            if (animalPositionInArray < 0) {
+                                Parse_model.getInstance().getUserClass().getAnimals().add(animal);
+                            }
+                            ((MainActivity) getActivity()).openNewFrag(new AnimalsFragment());
                         } else {
                             // failed adding animal
                             Toast.makeText(getActivity(), "failed adding animal", Toast.LENGTH_SHORT).show();
@@ -407,6 +417,8 @@ public class AnimalRegistrationFragment extends Fragment {
         ((MainActivity) getActivity()).hidePanelBar();
 
         if (animalPositionInArray >= 0) {
+            registerButton.setText("UPDATE PET");
+
             Animal animal = Parse_model.getInstance().getUserClass().getAnimals().get(animalPositionInArray);
 
             nameOfPet.setText(animal.getPetName());
@@ -414,11 +426,12 @@ public class AnimalRegistrationFragment extends Fragment {
             weight.setText(String.valueOf(animal.getWeight()));
 
             animalBirthDayCalendar.setTimeInMillis(animal.getBirthdayInMilliSec());
-            String myFormat = "dd/MM/yy"; //In which you need put here
+            String myFormat = "dd/MM/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
             birthday.setText(sdf.format(animalBirthDayCalendar.getTime()));
 
             int sexPosition = getPositionOfSelection(animalSexList, animal.getSex());
+            DEBUG.MSG(getClass(), "sexPosition = " + sexPosition);
             if (sexPosition != -1) {
                 sexOfAnimalSpinner.setSelection(sexPosition);
             }
@@ -428,7 +441,7 @@ public class AnimalRegistrationFragment extends Fragment {
                 sexOfAnimalSpinner.setSelection(typePosition);
             }
 
-            int breedPosition = getPositionOfSelection( AnimalSettingsManager.breedTypes.toArray(new String[AnimalSettingsManager.breedTypes.size()]), animal.getBreed());
+            int breedPosition = getPositionOfSelection(AnimalSettingsManager.breedTypes.toArray(new String[AnimalSettingsManager.breedTypes.size()]), animal.getBreed());
             if (breedPosition != -1) {
                 sexOfAnimalSpinner.setSelection(breedPosition);
             }
@@ -457,13 +470,27 @@ public class AnimalRegistrationFragment extends Fragment {
 
             boolean isTrained = animal.isTrained();
             if (isTrained) {
+                DEBUG.MSG(getClass(), "animal is trained");
                 trainCheckBox.setChecked(true);
                 trainedCertificateImage = animal.getTrainingCertificatePicture();
-                trainedCertificateImageView.setImageBitmap(trainedCertificateImage);
+                if (trainedCertificateImage != null) {
+                    DEBUG.MSG(getClass(), "trainedCertificateImage is NOT null");
+                    trainedCertificateImageView.setImageBitmap(trainedCertificateImage);
+                } else {
+                    DEBUG.MSG(getClass(), "trainedCertificateImage is null");
+                }
+            } else {
+                DEBUG.MSG(getClass(), "animal is NOT trained");
+            }
+
+            if (animal.getPhoto() != null) {
+                profileImage = animal.getPhoto();
+                profileImageView.setImageBitmap(animal.getPhoto());
             }
         }
         return root;
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -515,7 +542,7 @@ public class AnimalRegistrationFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == getActivity().RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             //user is returning from capturing an image using the camera
             if (requestCode == CAMERA_CAPTURE) {// || requestCode == GALLERY) {
 

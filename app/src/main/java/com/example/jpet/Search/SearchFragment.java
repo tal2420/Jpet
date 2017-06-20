@@ -227,7 +227,9 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
        if(SearchPage == 1){
            inflater.inflate(R.menu.search_menu, menu);
            SearchView searchView = (SearchView) menu.findItem(R.id.menu_item_search).getActionView();
-           searchView.setOnQueryTextListener(queryListener);
+           if (searchView != null) {
+               searchView.setOnQueryTextListener(queryListener);
+           }
        }
 
     }

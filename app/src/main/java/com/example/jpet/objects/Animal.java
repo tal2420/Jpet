@@ -42,10 +42,6 @@ public class Animal {
         this.animalId = animalId;
     }
 
-    public enum PetType {
-        Dog, Cat, Bird;
-    }
-
     public String getAnimalId() {
         return animalId;
     }
