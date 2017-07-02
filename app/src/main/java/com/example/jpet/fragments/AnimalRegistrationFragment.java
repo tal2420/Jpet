@@ -438,17 +438,17 @@ public class AnimalRegistrationFragment extends Fragment {
 
             int typePosition = getPositionOfSelection(AnimalSettingsManager.animalTypes.toArray(new String[AnimalSettingsManager.animalTypes.size()]), animal.getPetType());
             if (typePosition != -1) {
-                sexOfAnimalSpinner.setSelection(typePosition);
+                animalTypesSpinner.setSelection(typePosition);
             }
 
             int breedPosition = getPositionOfSelection(AnimalSettingsManager.breedTypes.toArray(new String[AnimalSettingsManager.breedTypes.size()]), animal.getBreed());
             if (breedPosition != -1) {
-                sexOfAnimalSpinner.setSelection(breedPosition);
+                breedSpinner.setSelection(breedPosition);
             }
 
             int subBreedPosition = getPositionOfSelection(AnimalSettingsManager.subBreedTypes.toArray(new String[AnimalSettingsManager.subBreedTypes.size()]), animal.getSubBreed());
             if (subBreedPosition != -1) {
-                sexOfAnimalSpinner.setSelection(subBreedPosition);
+                subBreedSpinner.setSelection(subBreedPosition);
             }
 
             neuteredCheckBox.setChecked(animal.isNeutered());

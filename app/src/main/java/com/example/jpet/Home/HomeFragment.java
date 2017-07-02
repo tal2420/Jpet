@@ -36,12 +36,16 @@ import com.example.jpet.CurrentDateTime;
 import com.example.jpet.DB_Model.ModelSql;
 import com.example.jpet.DB_Model.Models.Home_Model;
 import com.example.jpet.DB_Model.Parse_model;
+import com.example.jpet.DEBUG;
 import com.example.jpet.HashTags.HashTagFragment;
 import com.example.jpet.LikeAndFollowing.NotificationsOfPost;
 import com.example.jpet.MainActivity;
 import com.example.jpet.R;
+import com.example.jpet.loginFragment.UserClass;
+import com.example.jpet.objects.Animal;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicReference;
 
 //import com.example.jpet.SQL_model;
@@ -101,15 +105,11 @@ public class HomeFragment extends Fragment {
 
     DialogFragment dialogFragment;
 
-
     static int numOfLikes;
 //    ArrayList<String> hashTags;
 
-
     ArrayList<PostClass> localDBPostArray;
-
     //    ListView listView;
-
 
     Bitmap noPostImageBitmap;
     Bitmap noProfilePictureBitmap;
@@ -119,12 +119,10 @@ public class HomeFragment extends Fragment {
     String idObject;
     String userNamePosts;
 
-
-
     View root;
     ArrayList<PostClass> postsArrayList = new ArrayList<>();
 
-    public interface ChangeToGridViewButtonOn{
+    public interface ChangeToGridViewButtonOn {
         public void changeGridViewButtonOn();
     }
 
@@ -141,12 +139,29 @@ public class HomeFragment extends Fragment {
     PullToRefreshListView listView;
 
     public void updatePostsArrayList(final ArrayList<PostClass> postsArrayListTemp, int WhichHomePage) {
-        if(WhichHomePage == HOMO_PAGE){
+        if (WhichHomePage == HOMO_PAGE) {
             Activity activity = getActivity();
-            if(activity!=null){
+            if (activity != null) {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
+                        for (Iterator<PostClass> it = postsArrayListTemp.iterator(); it.hasNext();) {
+                            PostClass post = it.next();
+                            if (post.isShouldSendBreedingOffers()) {
+                                ArrayList<Animal> userAnimals = Parse_model.getInstance().getUserClass().getAnimals();
+                                boolean shouldSeePost = false;
+                                for (Animal animal : userAnimals) {
+                                    if (animal.shouldSeePost(post)) {
+                                        shouldSeePost = true;
+                                    }
+                                }
+
+                                if (!shouldSeePost) {
+                                    it.remove();
+                                }
+                            }
+                        }
 
                         if (!isPostsArrayUpdated) {
                             // First time updating posts array list
@@ -166,8 +181,8 @@ public class HomeFragment extends Fragment {
 
                         listView.onRefreshComplete();
 
-                        if(HOMO_PAGE == 2){
-                            if(changeToGridViewButtonOnDelegate!=null){
+                        if (HOMO_PAGE == 2) {
+                            if (changeToGridViewButtonOnDelegate != null) {
                                 changeToGridViewButtonOnDelegate.changeGridViewButtonOn();
                             }
                         }
@@ -176,15 +191,12 @@ public class HomeFragment extends Fragment {
                 });
 
             }
-            }
+        }
 
     }
 //********************************************************************************************************************
 
-
-        Parcelable state;
-
-
+    Parcelable state;
 
     @Override
     public void onPause() {
@@ -196,7 +208,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(!isFirstResume){
+        if (!isFirstResume) {
             root.findViewById(R.id.homeFragmentLoadingPanel).setVisibility(View.GONE);
         }
         isFirstResume = false;
@@ -205,7 +217,7 @@ public class HomeFragment extends Fragment {
 //            root.findViewById(R.id.homeFragmentLoadingPanel).setVisibility(View.GONE);
             listView.setAdapter(listAdapter);
 
-            if (state != null){
+            if (state != null) {
                 listView.requestFocus();
                 listView.onRestoreInstanceState(state);
             }
@@ -215,12 +227,13 @@ public class HomeFragment extends Fragment {
 
     boolean isFirstResume = true;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_home, container, false);
 
-         ((MainActivity)getActivity()).getSupportActionBar().setTitle("InstaShop");
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("InstaShop");
+
+        DEBUG.MSG(getClass(), "isAdmin = " + Parse_model.getInstance().getUserClass().isAdmin());
 
         getActivity().findViewById(R.id.home_page).setVisibility(View.VISIBLE);
         getActivity().findViewById(R.id.search).setVisibility(View.VISIBLE);
@@ -237,7 +250,7 @@ public class HomeFragment extends Fragment {
 
         setPostsImHomePage();
 
-        if (state != null){
+        if (state != null) {
 //            listView.requestFocus();
             listView.onRestoreInstanceState(state);
         }
@@ -299,6 +312,10 @@ public class HomeFragment extends Fragment {
             final Button likeButton = (Button) convertView.findViewById(R.id.likeButton);
             final Button likeRedButton = (Button) convertView.findViewById(R.id.likedButton);
             final Button commentButton = (Button) convertView.findViewById(R.id.commentButton);
+
+            if (currPost.isShouldSendBreedingOffers()) {
+                convertView.findViewById(R.id.post_item_sponsored_text).setVisibility(View.VISIBLE);
+            }
 
 //********************************LIKE BUTTON***********************************************
             if (postsArrayList.get(position).getIsLiked()) {
@@ -620,7 +637,6 @@ public class HomeFragment extends Fragment {
                 lm.setVisibility(View.GONE);
     }
 
-
     public static class Like extends AsyncTask<String, String, Integer> {
 
         View view;
@@ -682,9 +698,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
-
-
     //****************************************************************************
     // show comment dialog function
     void showDialog(View view, String _postID) {
@@ -693,7 +706,6 @@ public class HomeFragment extends Fragment {
         dialogFragment.show(getFragmentManager(), "dialog");
     }
     //*******************************************************************************
-
 
     public void removeItemDialog(final int removedItemPosition) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
@@ -881,10 +893,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void setPosts(ArrayList<PostClass> postsArrayList, int WhichHomePage) {
                 updatePostsArrayList(postsArrayList, WhichHomePage);
+                DEBUG.trace(7);
             }
         });
     }
-
 
 
 }

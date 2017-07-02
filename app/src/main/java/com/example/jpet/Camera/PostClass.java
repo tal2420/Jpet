@@ -27,6 +27,19 @@ public class PostClass {
     ArrayList<CommentClass> commentArray;
     String[] nameOfLikers;
 
+    private boolean isSponsored;
+
+    String sex;
+    String petType;
+    String breed;
+    String subBreed;
+
+    boolean isPedigree;
+    boolean isTrained;
+    boolean isChampion;
+    boolean isNeutered;
+    boolean shouldSendBreedingOffers;
+
     public PostClass(String _userName, String _mainString, Bitmap _postPicture, Bitmap _userProfilePicture, String _date, String objectID, Boolean isLiked, Boolean isFollowed, int picWidth, int picHeight, int isErased, String hashTag) {
         this._userName = _userName;
         this._mainString = _mainString;
@@ -69,7 +82,100 @@ public class PostClass {
     public PostClass() {
     }
 
+    public String getSex() {
+        return sex;
+    }
 
+    public PostClass setSex(String sex) {
+        this.sex = sex;
+        return this;
+    }
+
+    public String getPetType() {
+        return petType;
+    }
+
+    public PostClass setPetType(String petType) {
+        this.petType = petType;
+        return this;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public PostClass setBreed(String breed) {
+        this.breed = breed;
+        return this;
+    }
+
+    public String getSubBreed() {
+        return subBreed;
+    }
+
+    public PostClass setSubBreed(String subBreed) {
+        this.subBreed = subBreed;
+        return this;
+    }
+
+    public boolean isPedigree() {
+        return isPedigree;
+    }
+
+    public PostClass setPedigree(boolean pedigree) {
+        isPedigree = pedigree;
+        return this;
+    }
+
+    public boolean isTrained() {
+        return isTrained;
+    }
+
+    public PostClass setTrained(boolean trained) {
+        isTrained = trained;
+        return this;
+    }
+
+    public boolean isChampion() {
+        return isChampion;
+    }
+
+    public PostClass setChampion(boolean champion) {
+        isChampion = champion;
+        return this;
+    }
+
+    public boolean isNeutered() {
+        return isNeutered;
+    }
+
+    public PostClass setNeutered(boolean neutered) {
+        isNeutered = neutered;
+        return this;
+    }
+
+    public PostClass setSetHashTags(boolean setHashTags) {
+        isSetHashTags = setHashTags;
+        return this;
+    }
+
+    public boolean isSponsored() {
+        return isSponsored;
+    }
+
+    public PostClass setSponsored(boolean sponsored) {
+        isSponsored = sponsored;
+        return this;
+    }
+
+    public boolean isShouldSendBreedingOffers() {
+        return shouldSendBreedingOffers;
+    }
+
+    public PostClass setShouldSendBreedingOffers(boolean shouldSendBreedingOffers) {
+        this.shouldSendBreedingOffers = shouldSendBreedingOffers;
+        return this;
+    }
 
     public String getLine() {
         return "!@#$%^&*";

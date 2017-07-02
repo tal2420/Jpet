@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#271fbaff"
@@ -7,85 +7,151 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_gravity="center"
+        android:gravity="center"
         android:text="Add a Post"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="30dp" />
 
-
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/form_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <EditText
-            android:id="@+id/mainString_txt"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="What are you thinking about?" />
-
-
-        <Button
-            android:id="@+id/btnSelectPhoto"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/buttonshape"
-            android:shadowColor="#C2C2C2"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="5"
-            android:singleLine="true"
-            android:text=" Select Photo"
-            android:textColor="#FFFFFF" />
-
+        android:layout_above="@+id/addPost_btn"
+        android:layout_below="@+id/textView">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/viewImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/admin_form"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+                <Spinner
+                    android:id="@+id/sex_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
+                <Spinner
+                    android:id="@+id/animal_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
+                <Spinner
+                    android:id="@+id/breed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
+                <Spinner
+                    android:id="@+id/sub_breed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
+                <CheckBox
+                    android:id="@+id/pedigree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:alpha="0.5"
+                    android:text="Does the animal pedigree?" />
+
+                <CheckBox
+                    android:id="@+id/train"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:alpha="0.5"
+                    android:text="Does the animal trained?" />
+
+                <CheckBox
+                    android:id="@+id/champion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:alpha="0.5"
+                    android:text="Does the animal champion?" />
+
+                <CheckBox
+                    android:id="@+id/neutered"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:alpha="0.5"
+                    android:text="Does the animal neuter?" />
+
+            </LinearLayout>
+
             <EditText
-                android:id="@+id/hash_tag"
+                android:id="@+id/mainString_txt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Hash Tags Here!"
-                android:inputType="textMultiLine"/>
+                android:hint="What are you thinking about?" />
 
             <Button
-                android:id="@+id/addPost_btn"
+                android:id="@+id/btnSelectPhoto"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/buttonshape"
-                android:gravity="center"
                 android:shadowColor="#C2C2C2"
                 android:shadowDx="0"
                 android:shadowDy="0"
                 android:shadowRadius="5"
                 android:singleLine="true"
-                android:text=" Add Your Post Now"
+                android:text=" Select Photo"
                 android:textColor="#FFFFFF" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/viewImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="fitCenter" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/hash_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Hash Tags Here!"
+                android:inputType="textMultiLine" />
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
-
-</LinearLayout>
+    <Button
+        android:id="@+id/addPost_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/buttonshape"
+        android:gravity="center"
+        android:shadowColor="#C2C2C2"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:singleLine="true"
+        android:text=" Add Your Post Now"
+        android:textColor="#FFFFFF" />
+</android.support.percent.PercentRelativeLayout>

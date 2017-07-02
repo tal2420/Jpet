@@ -19,6 +19,8 @@ public class UserClass {
     String lastOn;
     String _userId;
 
+    boolean isAdmin;
+
     ArrayList<Animal> animals = new ArrayList<>();
 
     public UserClass(String _userName, String _password, String _email, Bitmap _userPic, ArrayList<String> followersArray) {
@@ -45,6 +47,15 @@ public class UserClass {
 
     public UserClass setAnimals(ArrayList<Animal> animals) {
         this.animals = animals;
+        return this;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public UserClass setAdmin(boolean admin) {
+        isAdmin = admin;
         return this;
     }
 

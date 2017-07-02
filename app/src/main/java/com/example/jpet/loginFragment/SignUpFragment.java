@@ -117,23 +117,23 @@ public class SignUpFragment extends Fragment {
 
                 if (_userName.equals("") || _password.equals("") || _email.equals("")) {
                     errorDialog();
-                } else
-                    user.signUpInBackground(new SignUpCallback() {
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                // Hooray! Let them use the app now.
-                                Parse_model.getInstance().setSignUp(_userName, _password, _email);
-                                new SignUpNow().execute();
-                            } else {
-                                e.printStackTrace();
-                                // Sign up didn't succeed. Look at the ParseException
-                                // to figure out what went wrong
-                                errorDialog();
-                            }
-                        }
-
-                    });
-
+                } else {
+//                    user.signUpInBackground(new SignUpCallback() {
+//                        public void done(ParseException e) {
+//                            if (e == null) {
+//                                // Hooray! Let them use the app now.
+                    Parse_model.getInstance().setSignUp(_userName, _password, _email);
+                    new SignUpNow().execute();
+//                            } else {
+//                                e.printStackTrace();
+//                                // Sign up didn't succeed. Look at the ParseException
+//                                // to figure out what went wrong
+//                                errorDialog();
+//                            }
+//                        }
+//
+//                    });
+                }
 
             }
         });

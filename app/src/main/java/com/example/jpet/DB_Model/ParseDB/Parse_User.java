@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.example.jpet.ApplicationContextProvider;
 import com.example.jpet.Camera.PostClass;
+import com.example.jpet.Contract;
 import com.example.jpet.DB_Model.Parse_model;
 import com.example.jpet.DEBUG;
 import com.example.jpet.loginFragment.UserClass;
@@ -97,6 +98,7 @@ public class Parse_User {
             po.put("Password", userClass.get_password());
             po.put("Email", userClass.get_email());
             po.put("numFollowers", 0);
+            po.put(Contract.User.IS_ADMIN, false);
 
             String UserID = getUserIdByUserName(userFacebookProfile.getId());
             Parse_model.getInstance().getUserClass().set_userId(UserID);
@@ -129,6 +131,7 @@ public class Parse_User {
         po.put("Password", Parse_model.getInstance().getUserClass().get_password());
         po.put("Email", Parse_model.getInstance().getUserClass().get_email());
         po.put("numFollowers", 0);
+        po.put(Contract.User.IS_ADMIN, false);
 
         String UserID = getUserIdByUserName(UserName);
 
@@ -198,7 +201,8 @@ public class Parse_User {
                         Parse_model.getInstance().getUserClass().set_userPic(null);
                     }
 
-
+                    boolean isAdmin = isUserAdmin(email);
+                    Parse_model.getInstance().getUserClass().setAdmin(isAdmin);
                     Parse_model.getInstance().getUserClass().set_isOn(true);
                     return true;
                 }
@@ -242,6 +246,20 @@ public class Parse_User {
         });
 
         return isSucceedUpdatingHolder;
+    }
+
+    public boolean isUserAdmin(String userEmail) {
+        ParseQuery query = new ParseQuery("Users");
+        query.whereEqualTo("Email",userEmail);
+        try {
+            ParseObject user = query.getFirst();
+            if (user != null) {
+                return user.getBoolean(Contract.User.IS_ADMIN);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

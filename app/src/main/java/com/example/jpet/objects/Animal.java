@@ -2,6 +2,7 @@ package com.example.jpet.objects;
 
 import android.graphics.Bitmap;
 
+import com.example.jpet.Camera.PostClass;
 import com.parse.ParseObject;
 
 /**
@@ -40,6 +41,17 @@ public class Animal {
 
     public Animal(String animalId) {
         this.animalId = animalId;
+    }
+
+    public boolean shouldSeePost(PostClass post) {
+        return post.isChampion() == isChampion() && post.isChampion() ||
+                post.isPedigree() == isPedigree() && post.isPedigree() ||
+                post.isTrained() == isTrained() && post.isTrained() ||
+                post.isNeutered() == isNeutered() && post.isNeutered() ||
+                post.getSex().equals(sex) ||
+                post.getPetType().equals(petType)  ||
+                post.getBreed().equals(breed) ||
+                post.getSubBreed().equals(subBreed);
     }
 
     public String getAnimalId() {

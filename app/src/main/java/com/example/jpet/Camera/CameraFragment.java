@@ -18,15 +18,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.jpet.Contract;
+import com.example.jpet.DB_Model.ParseDB.Parse_Settings;
 import com.example.jpet.DB_Model.Parse_model;
 import com.example.jpet.DEBUG;
 import com.example.jpet.MainActivity;
+import com.example.jpet.Network.Network;
 import com.example.jpet.R;
+import com.example.jpet.managers.AnimalSettingsManager;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -61,6 +68,23 @@ public class CameraFragment extends Fragment {
     //captured picture uri
     private Uri picUri;
 
+    CheckBox pedigreeCheckBox;
+    CheckBox trainCheckBox;
+    CheckBox championCheckBox;
+    CheckBox neuteredCheckBox;
+    CheckBox shouldSendBreedingOffersCheckBox;
+
+    ArrayAdapter<String> animalSexListAdapter;
+    ArrayAdapter<String> animalTypesAdapter;
+    ArrayAdapter<String> breedAdapter;
+    ArrayAdapter<String> subBreedAdapter;
+
+    Spinner sexOfAnimalSpinner;
+    Spinner animalTypesSpinner;
+    Spinner breedSpinner;
+    Spinner subBreedSpinner;
+
+    String[] animalSexList = {"Male", "Female"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +97,20 @@ public class CameraFragment extends Fragment {
         mainString = (EditText) root.findViewById(R.id.mainString_txt);
         hashTag = (EditText) root.findViewById(R.id.hash_tag);
 
+        sexOfAnimalSpinner = (Spinner) root.findViewById(R.id.sex_input);
+        animalTypesSpinner = (Spinner) root.findViewById(R.id.animal_type);
+        breedSpinner = (Spinner) root.findViewById(R.id.breed);
+        subBreedSpinner = (Spinner) root.findViewById(R.id.sub_breed);
+
+        pedigreeCheckBox = (CheckBox) root.findViewById(R.id.pedigree);
+        trainCheckBox = (CheckBox) root.findViewById(R.id.train);
+        championCheckBox = (CheckBox) root.findViewById(R.id.champion);
+        neuteredCheckBox = (CheckBox) root.findViewById(R.id.neutered);
+        shouldSendBreedingOffersCheckBox = (CheckBox) root.findViewById(R.id.should_send_breeding_offers);
+
+        if (Parse_model.getInstance().getUserClass().isAdmin()) {
+            root.findViewById(R.id.admin_form).setVisibility(View.VISIBLE);
+        }
 
         Button selectPhotoButton = (Button) root.findViewById(R.id.btnSelectPhoto);
         selectPhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +155,53 @@ public class CameraFragment extends Fragment {
             }
         });
 
+        Network.runOnThreadWithProgressDialog(getActivity(), new Network.NetworkCallBack() {
+            @Override
+            public Object doInBackground() {
+                AnimalSettingsManager.breedTypes = Parse_Settings.getAnimalsSettingsByName(
+                        Contract.AnimalSettings.BREED_TABLE_NAME,
+                        Contract.AnimalSettings.BREED_COLUMN);
+
+                AnimalSettingsManager.subBreedTypes = Parse_Settings.getAnimalsSettingsByName(
+                        Contract.AnimalSettings.SUB_BREED_TABLE_NAME,
+                        Contract.AnimalSettings.SUB_BREED_COLUMN);
+
+                AnimalSettingsManager.animalTypes = Parse_Settings.getAnimalsSettingsByName(
+                        Contract.AnimalSettings.ANIMALS_TYPES_TABLE_NAME,
+                        Contract.AnimalSettings.ANIMALS_TYPES_COLUMN);
+
+                return null;
+            }
+
+            @Override
+            public void onPostExecute(Object object) {
+                super.onPostExecute(object);
+
+                animalSexListAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        animalSexList);
+                sexOfAnimalSpinner.setAdapter(animalSexListAdapter);
+
+                animalTypesAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        AnimalSettingsManager.animalTypes.toArray(new String[AnimalSettingsManager.animalTypes.size()])
+                );
+                animalTypesSpinner.setAdapter(animalTypesAdapter);
+
+                breedAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        AnimalSettingsManager.breedTypes.toArray(new String[AnimalSettingsManager.breedTypes.size()])
+                );
+                breedSpinner.setAdapter(breedAdapter);
+
+                subBreedAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        AnimalSettingsManager.subBreedTypes.toArray(new String[AnimalSettingsManager.subBreedTypes.size()])
+                );
+                subBreedSpinner.setAdapter(subBreedAdapter);
+            }
+        });
+
         return root;
     }
 
@@ -138,6 +223,28 @@ public class CameraFragment extends Fragment {
             currPost.set_postPicture(_thePic);
             currPost.setPicWidth(picWidth);
             currPost.setPicHeight(picHeight);
+
+            if (Parse_model.getInstance().getUserClass().isAdmin()) {
+                String sex = sexOfAnimalSpinner.getSelectedItem().toString();
+                String animalType = animalTypesSpinner.getSelectedItem().toString();
+                String breed = breedSpinner.getSelectedItem().toString();
+                String subBreed = subBreedSpinner.getSelectedItem().toString();
+
+                boolean isPedigree = pedigreeCheckBox.isChecked();
+                boolean isChampion = championCheckBox.isChecked();
+                boolean isTrained = trainCheckBox.isChecked();
+                boolean isNeuter = neuteredCheckBox.isChecked();
+
+                currPost.setSex(sex)
+                        .setPetType(animalType)
+                        .setBreed(breed)
+                        .setSubBreed(subBreed)
+                        .setPedigree(isPedigree)
+                        .setTrained(isTrained)
+                        .setChampion(isChampion)
+                        .setNeutered(isNeuter)
+                        .setShouldSendBreedingOffers(true);
+            }
         }
 
         @Override

@@ -6,6 +6,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.example.jpet.Camera.PostClass;
+import com.example.jpet.Contract;
 import com.example.jpet.CurrentDateTime;
 import com.example.jpet.DB_Model.Parse_model;
 import com.example.jpet.LoadImageByReference.PostProfilePicture;
@@ -105,6 +106,34 @@ public class Parse_Posts {
                     po.getString("HashTags"),
                     po.getInt("isErased")
             );
+
+            if (po.getBoolean(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN)) {
+                post.setShouldSendBreedingOffers(true);
+                if (po.containsKey(Contract.Animal.SEX_STRING)) {
+                    post.setSex(po.getString(Contract.Animal.SEX_STRING));
+                }
+                if (po.containsKey(Contract.Animal.TYPE_STRING)) {
+                    post.setPetType(po.getString(Contract.Animal.TYPE_STRING));
+                }
+                if (po.containsKey(Contract.Animal.BREED_STRING)) {
+                    post.setBreed(po.getString(Contract.Animal.BREED_STRING));
+                }
+                if (po.containsKey(Contract.Animal.SUB_BREED_STRING)) {
+                    post.setSubBreed(po.getString(Contract.Animal.SUB_BREED_STRING));
+                }
+                if (po.containsKey(Contract.Animal.IS_PEDIGREE_BOOLEAN)) {
+                    post.setPedigree(po.getBoolean(Contract.Animal.IS_PEDIGREE_BOOLEAN));
+                }
+                if (po.containsKey(Contract.Animal.IS_TRAINED_BOOLEAN)) {
+                    post.setTrained(po.getBoolean(Contract.Animal.IS_TRAINED_BOOLEAN));
+                }
+                if (po.containsKey(Contract.Animal.IS_CHAMPION_BOOLEAN)) {
+                    post.setChampion(po.getBoolean(Contract.Animal.IS_CHAMPION_BOOLEAN));
+                }
+                if (po.containsKey(Contract.Animal.IS_NEUTER_BOOLEAN)) {
+                    post.setNeutered(po.getBoolean(Contract.Animal.IS_NEUTER_BOOLEAN));
+                }
+            }
 
 
         } catch (ParseException e) {
@@ -342,6 +371,35 @@ public class Parse_Posts {
                         po.getString("HashTags"),
                         po.getInt("isErased")
                 );
+
+                if (po.getBoolean(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN)) {
+                    currPost.setShouldSendBreedingOffers(true);
+                    if (po.containsKey(Contract.Animal.SEX_STRING)) {
+                        currPost.setSex(po.getString(Contract.Animal.SEX_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.TYPE_STRING)) {
+                        currPost.setPetType(po.getString(Contract.Animal.TYPE_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.BREED_STRING)) {
+                        currPost.setBreed(po.getString(Contract.Animal.BREED_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.SUB_BREED_STRING)) {
+                        currPost.setSubBreed(po.getString(Contract.Animal.SUB_BREED_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_PEDIGREE_BOOLEAN)) {
+                        currPost.setPedigree(po.getBoolean(Contract.Animal.IS_PEDIGREE_BOOLEAN));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_TRAINED_BOOLEAN)) {
+                        currPost.setTrained(po.getBoolean(Contract.Animal.IS_TRAINED_BOOLEAN));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_CHAMPION_BOOLEAN)) {
+                        currPost.setChampion(po.getBoolean(Contract.Animal.IS_CHAMPION_BOOLEAN));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_NEUTER_BOOLEAN)) {
+                        currPost.setNeutered(po.getBoolean(Contract.Animal.IS_NEUTER_BOOLEAN));
+                    }
+                }
+
                 postsArrayList.add(currPost);
 
             }
@@ -385,6 +443,35 @@ public class Parse_Posts {
                         po.getString("HashTags"),
                         po.getInt("isErased")
                 );
+
+                if (po.getBoolean(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN)) {
+                    currPost.setShouldSendBreedingOffers(true);
+                    if (po.containsKey(Contract.Animal.SEX_STRING)) {
+                        currPost.setSex(po.getString(Contract.Animal.SEX_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.TYPE_STRING)) {
+                        currPost.setPetType(po.getString(Contract.Animal.TYPE_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.BREED_STRING)) {
+                        currPost.setBreed(po.getString(Contract.Animal.BREED_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.SUB_BREED_STRING)) {
+                        currPost.setSubBreed(po.getString(Contract.Animal.SUB_BREED_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_PEDIGREE_BOOLEAN)) {
+                        currPost.setPedigree(po.getBoolean(Contract.Animal.IS_PEDIGREE_BOOLEAN));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_TRAINED_BOOLEAN)) {
+                        currPost.setTrained(po.getBoolean(Contract.Animal.IS_TRAINED_BOOLEAN));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_CHAMPION_BOOLEAN)) {
+                        currPost.setChampion(po.getBoolean(Contract.Animal.IS_CHAMPION_BOOLEAN));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_NEUTER_BOOLEAN)) {
+                        currPost.setNeutered(po.getBoolean(Contract.Animal.IS_NEUTER_BOOLEAN));
+                    }
+                }
+
                 postsArrayList.add(currPost);
 
             } catch (ParseException e) {
@@ -407,6 +494,20 @@ public class Parse_Posts {
 
 
         po.put("isErased", 1);
+
+        if (post.isShouldSendBreedingOffers()) {
+            po.put(Contract.Animal.SEX_STRING, post.getSex());
+            po.put(Contract.Animal.TYPE_STRING, post.getPetType());
+            po.put(Contract.Animal.BREED_STRING, post.getBreed());
+            po.put(Contract.Animal.SUB_BREED_STRING, post.getSubBreed());
+
+            po.put(Contract.Animal.IS_PEDIGREE_BOOLEAN, post.isPedigree());
+            po.put(Contract.Animal.IS_TRAINED_BOOLEAN, post.isTrained());
+            po.put(Contract.Animal.IS_CHAMPION_BOOLEAN, post.isChampion());
+            po.put(Contract.Animal.IS_NEUTER_BOOLEAN, post.isNeutered());
+
+            po.put(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN, true);
+        }
 
         //uploading profile pic
         Bitmap userPicture = Parse_model.getInstance().getUserClass().get_userPic();
@@ -469,6 +570,34 @@ public class Parse_Posts {
                         po.getString("HashTags"),
                         po.getInt("isErased")
                 );
+
+                if (po.getBoolean(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN)) {
+                    currPost.setShouldSendBreedingOffers(true);
+                    if (po.containsKey(Contract.Animal.SEX_STRING)) {
+                        currPost.setSex(po.getString(Contract.Animal.SEX_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.TYPE_STRING)) {
+                        currPost.setPetType(po.getString(Contract.Animal.TYPE_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.BREED_STRING)) {
+                        currPost.setBreed(po.getString(Contract.Animal.BREED_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.SUB_BREED_STRING)) {
+                        currPost.setSubBreed(po.getString(Contract.Animal.SUB_BREED_STRING));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_PEDIGREE_BOOLEAN)) {
+                        currPost.setPedigree(po.getBoolean(Contract.Animal.IS_PEDIGREE_BOOLEAN));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_TRAINED_BOOLEAN)) {
+                        currPost.setTrained(po.getBoolean(Contract.Animal.IS_TRAINED_BOOLEAN));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_CHAMPION_BOOLEAN)) {
+                        currPost.setChampion(po.getBoolean(Contract.Animal.IS_CHAMPION_BOOLEAN));
+                    }
+                    if (po.containsKey(Contract.Animal.IS_NEUTER_BOOLEAN)) {
+                        currPost.setNeutered(po.getBoolean(Contract.Animal.IS_NEUTER_BOOLEAN));
+                    }
+                }
 
                 userPostsArrayList.add(currPost);
 
@@ -541,8 +670,13 @@ public class Parse_Posts {
             ParseQuery<ParseObject> query = new ParseQuery("Posts");
             query.whereEqualTo("UserName", userNameString);
             query.whereEqualTo("isErased", 1);
+
+            ParseQuery<ParseObject> sponsoredQuery = new ParseQuery("Posts");
+            sponsoredQuery.whereEqualTo(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN, true);
             try {
+                List<ParseObject> sponsoredResult = sponsoredQuery.find();
                 List<ParseObject> result = query.find();
+                result.addAll(sponsoredResult);
                 for (ParseObject po : result) {
                     PostClass currUserPost;
                     String postUserName = po.getString("UserName");
@@ -576,6 +710,34 @@ public class Parse_Posts {
                             po.getString("HashTags"),
                             po.getInt("isErased")
                     );
+                    if (po.getBoolean(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN)) {
+                        currPost.setShouldSendBreedingOffers(true);
+                        if (po.containsKey(Contract.Animal.SEX_STRING)) {
+                            currPost.setSex(po.getString(Contract.Animal.SEX_STRING));
+                        }
+                        if (po.containsKey(Contract.Animal.TYPE_STRING)) {
+                            currPost.setPetType(po.getString(Contract.Animal.TYPE_STRING));
+                        }
+                        if (po.containsKey(Contract.Animal.BREED_STRING)) {
+                            currPost.setBreed(po.getString(Contract.Animal.BREED_STRING));
+                        }
+                        if (po.containsKey(Contract.Animal.SUB_BREED_STRING)) {
+                            currPost.setSubBreed(po.getString(Contract.Animal.SUB_BREED_STRING));
+                        }
+                        if (po.containsKey(Contract.Animal.IS_PEDIGREE_BOOLEAN)) {
+                            currPost.setPedigree(po.getBoolean(Contract.Animal.IS_PEDIGREE_BOOLEAN));
+                        }
+                        if (po.containsKey(Contract.Animal.IS_TRAINED_BOOLEAN)) {
+                            currPost.setTrained(po.getBoolean(Contract.Animal.IS_TRAINED_BOOLEAN));
+                        }
+                        if (po.containsKey(Contract.Animal.IS_CHAMPION_BOOLEAN)) {
+                            currPost.setChampion(po.getBoolean(Contract.Animal.IS_CHAMPION_BOOLEAN));
+                        }
+                        if (po.containsKey(Contract.Animal.IS_NEUTER_BOOLEAN)) {
+                            currPost.setNeutered(po.getBoolean(Contract.Animal.IS_NEUTER_BOOLEAN));
+                        }
+                    }
+
                     userPostsArrayList.add(currPost);
 //                    }
 

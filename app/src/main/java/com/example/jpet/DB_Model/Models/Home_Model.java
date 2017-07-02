@@ -6,8 +6,11 @@ import android.util.Log;
 import com.example.jpet.Camera.PostClass;
 import com.example.jpet.CurrentDateTime;
 import com.example.jpet.DB_Model.ModelSql;
+import com.example.jpet.DB_Model.ParseDB.Parse_Animals;
 import com.example.jpet.DB_Model.Parse_model;
+import com.example.jpet.DEBUG;
 import com.example.jpet.loginFragment.UserClass;
+import com.example.jpet.objects.Animal;
 
 import java.util.ArrayList;
 
@@ -83,6 +86,9 @@ public class Home_Model {
             followersList = Parse_model.getInstance().getFollowersByUserNameToString(userName);
             followersList.add(userName);
 
+
+            ArrayList<Animal> animals = Parse_Animals.getAllAnimalsByEmail(Parse_model.getInstance().getUserClass().get_email());
+            Parse_model.getInstance().getUserClass().setAnimals(animals);
 
             postsArrayList = Parse_model.getInstance().getAllUsersPostsByFollowings(followersList);
 
