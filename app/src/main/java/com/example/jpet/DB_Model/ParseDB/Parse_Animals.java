@@ -23,6 +23,10 @@ public class Parse_Animals {
 
     public static boolean updateAnimal(Animal animal) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Contract.Animal.QUERY_NAME_STRING);
+
+        DEBUG.trace(5);
+        DEBUG.MSG(Parse_Animals.class, "animal.getAnimalId() = " + animal.getAnimalId());
+
         query.whereEqualTo(Contract.Animal.ANIMAL_OBJECT_ID, animal.getAnimalId());
         ParseObject animalObject = null;
         try {
@@ -112,8 +116,10 @@ public class Parse_Animals {
     public static boolean addAnimal(Animal animal) {
         ParseObject animalObject = new ParseObject(Contract.Animal.QUERY_NAME_STRING);
 
-        animalObject.put(Contract.Animal.USER_EMAIL_STRING, Parse_model.getInstance().getUserClass().get_email());
+        DEBUG.trace(5);
+        DEBUG.MSG(Parse_Animals.class, "animalObject.getObjectId() = " + animalObject.getObjectId());
 
+        animalObject.put(Contract.Animal.USER_EMAIL_STRING, Parse_model.getInstance().getUserClass().get_email());
         animalObject.put(Contract.Animal.NAME_STRING, animal.getPetName());
         animalObject.put(Contract.Animal.SEX_STRING, animal.getSex());
         animalObject.put(Contract.Animal.TYPE_STRING, animal.getPetType());
@@ -146,6 +152,7 @@ public class Parse_Animals {
 
         try {
             animalObject.save();
+            animal.setAnimalId(animalObject.getObjectId());
             return true;
         } catch (ParseException e) {
             e.printStackTrace();
