@@ -105,19 +105,23 @@ public class Home_Model {
             publishProgress(postsArrayList);
 
 
-            // Updating local data base in new posts
-            //checking in local DB if there are any new posts from parse and update them
-            for (PostClass currPost : postsArrayList) {
-                boolean isPostExists = false;
-                for (PostClass currLocalPost : LocalDBPostsArray) {
-                    if (currPost.getObjectID().equals(currLocalPost.getObjectID())) {
-                        isPostExists = true;
+            try {
+                // Updating local data base in new posts
+                //checking in local DB if there are any new posts from parse and update them
+                for (PostClass currPost : postsArrayList) {
+                    boolean isPostExists = false;
+                    for (PostClass currLocalPost : LocalDBPostsArray) {
+                        if (currPost.getObjectID().equals(currLocalPost.getObjectID())) {
+                            isPostExists = true;
+                        }
+                    }
+                    if (!isPostExists) {
+                        ModelSql.getInstance().addPost(currPost);
+                        Log.e("post not exist", "adding local DB");
                     }
                 }
-                if (!isPostExists) {
-                    ModelSql.getInstance().addPost(currPost);
-                    Log.e("post not exist", "adding local DB");
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             //updating followers list in local DB

@@ -3,6 +3,7 @@ package com.example.jpet.objects;
 import android.graphics.Bitmap;
 
 import com.example.jpet.Camera.PostClass;
+import com.example.jpet.Contract;
 import com.parse.ParseObject;
 
 /**
@@ -52,10 +53,10 @@ public class Animal {
                 post.isPedigree() == isPedigree() && post.isPedigree() ||
                 post.isTrained() == isTrained() && post.isTrained() ||
                 post.isNeutered() == isNeutered() && post.isNeutered() ||
-                post.getSex().equals(sex) ||
-                post.getPetType().equals(petType)  ||
-                post.getBreed().equals(breed) ||
-                post.getSubBreed().equals(subBreed);
+                post.getSex().equals(sex) || post.getPetType().equals(Contract.AnimalSettings.ANY) ||
+                post.getPetType().equals(petType)  || post.getPetType().equals(Contract.AnimalSettings.ANY) ||
+                post.getBreed().equals(breed) || post.getBreed().equals(Contract.AnimalSettings.ANY) ||
+                post.getSubBreed().equals(subBreed) || post.getSubBreed().equals(Contract.AnimalSettings.ANY);
     }
 
     public String getEmail() {

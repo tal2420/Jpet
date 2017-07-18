@@ -81,7 +81,18 @@ public class Parse_User {
             e.printStackTrace();
         }
         return UserID;
+    }
 
+    public static boolean isUserExist(String email) {
+        ParseQuery<ParseObject> query = new ParseQuery("Users");
+        query.whereEqualTo("Email", email);
+        try {
+            ParseObject result = query.getFirst();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean addNewFacebookUser() {

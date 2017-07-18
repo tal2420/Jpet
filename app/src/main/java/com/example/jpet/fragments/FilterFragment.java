@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,6 +18,8 @@ import com.example.jpet.MainActivity;
 import com.example.jpet.Network.Network;
 import com.example.jpet.R;
 import com.example.jpet.managers.AnimalSettingsManager;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,20 +71,58 @@ public class FilterFragment extends Fragment {
         neuteredCheckBox = (CheckBox) root.findViewById(R.id.neutered);
         shouldSendBreedingOffersCheckBox = (CheckBox) root.findViewById(R.id.should_send_breeding_offers);
 
+        animalTypesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<String> breeds = AnimalSettingsManager.getBreedsByFather((String)animalTypesSpinner.getSelectedItem());
+                breeds.add(Contract.AnimalSettings.ANY);
+                breedAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        breeds.toArray(new String[breeds.size()])
+                );
+                breedSpinner.setAdapter(breedAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ArrayList<String> breeds = AnimalSettingsManager.getBreedsByFather((String)animalTypesSpinner.getSelectedItem());
+                breeds.add(Contract.AnimalSettings.ANY);
+                breedAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        breeds.toArray(new String[breeds.size()])
+                );
+                breedSpinner.setAdapter(breedAdapter);
+            }
+        });
+
+        breedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<String> subBreeds = AnimalSettingsManager.getSubBreedsByFather((String)breedSpinner.getSelectedItem());
+                subBreeds.add(Contract.AnimalSettings.ANY);
+                subBreedAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        subBreeds.toArray(new String[subBreeds.size()])
+                );
+                subBreedSpinner.setAdapter(subBreedAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ArrayList<String> subBreeds = AnimalSettingsManager.getSubBreedsByFather((String)breedSpinner.getSelectedItem());
+                subBreeds.add(Contract.AnimalSettings.ANY);
+                subBreedAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        subBreeds.toArray(new String[subBreeds.size()])
+                );
+                subBreedSpinner.setAdapter(subBreedAdapter);
+            }
+        });
+
         Network.runOnThreadWithProgressDialog(getActivity(), new Network.NetworkCallBack() {
             @Override
             public Object doInBackground() {
-                AnimalSettingsManager.breedTypes = Parse_Settings.getAnimalsSettingsByName(
-                        Contract.AnimalSettings.BREED_TABLE_NAME,
-                        Contract.AnimalSettings.BREED_COLUMN);
-
-                AnimalSettingsManager.subBreedTypes = Parse_Settings.getAnimalsSettingsByName(
-                        Contract.AnimalSettings.SUB_BREED_TABLE_NAME,
-                        Contract.AnimalSettings.SUB_BREED_COLUMN);
-
-                AnimalSettingsManager.animalTypes = Parse_Settings.getAnimalsSettingsByName(
-                        Contract.AnimalSettings.ANIMALS_TYPES_TABLE_NAME,
-                        Contract.AnimalSettings.ANIMALS_TYPES_COLUMN);
+                AnimalSettingsManager.downloadAndSetSettings();
                 return null;
             }
 
@@ -92,21 +133,27 @@ public class FilterFragment extends Fragment {
                         animalSexList);
                 sexOfAnimalSpinner.setAdapter(animalSexListAdapter);
 
+                ArrayList<String> types = AnimalSettingsManager.animalTypes;
+                types.add(Contract.AnimalSettings.ANY);
                 animalTypesAdapter = new ArrayAdapter<>(getActivity(),
                         android.R.layout.simple_spinner_dropdown_item,
-                        AnimalSettingsManager.animalTypes.toArray(new String[AnimalSettingsManager.animalTypes.size()])
+                        types.toArray(new String[types.size()])
                 );
                 animalTypesSpinner.setAdapter(animalTypesAdapter);
 
+                ArrayList<String> breeds = AnimalSettingsManager.animalTypes;
+                breeds.add(Contract.AnimalSettings.ANY);
                 breedAdapter = new ArrayAdapter<>(getActivity(),
                         android.R.layout.simple_spinner_dropdown_item,
-                        AnimalSettingsManager.breedTypes.toArray(new String[AnimalSettingsManager.breedTypes.size()])
+                        breeds.toArray(new String[breeds.size()])
                 );
                 breedSpinner.setAdapter(breedAdapter);
 
+                ArrayList<String> subBreeds = AnimalSettingsManager.animalTypes;
+                subBreeds.add(Contract.AnimalSettings.ANY);
                 subBreedAdapter = new ArrayAdapter<>(getActivity(),
                         android.R.layout.simple_spinner_dropdown_item,
-                        AnimalSettingsManager.subBreedTypes.toArray(new String[AnimalSettingsManager.subBreedTypes.size()])
+                        subBreeds.toArray(new String[subBreeds.size()])
                 );
                 subBreedSpinner.setAdapter(subBreedAdapter);
             }

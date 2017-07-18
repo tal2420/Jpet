@@ -61,18 +61,7 @@ public class AnimalsFragment extends Fragment {
 
                     @Override
                     public Object doInBackground() {
-                        AnimalSettingsManager.breedTypes = Parse_Settings.getAnimalsSettingsByName(
-                                Contract.AnimalSettings.BREED_TABLE_NAME,
-                                Contract.AnimalSettings.BREED_COLUMN);
-
-                        AnimalSettingsManager.subBreedTypes = Parse_Settings.getAnimalsSettingsByName(
-                                Contract.AnimalSettings.SUB_BREED_TABLE_NAME,
-                                Contract.AnimalSettings.SUB_BREED_COLUMN);
-
-                        AnimalSettingsManager.animalTypes = Parse_Settings.getAnimalsSettingsByName(
-                                Contract.AnimalSettings.ANIMALS_TYPES_TABLE_NAME,
-                                Contract.AnimalSettings.ANIMALS_TYPES_COLUMN);
-
+                        AnimalSettingsManager.downloadAndSetSettings();
                         return null;
                     }
 
@@ -121,18 +110,7 @@ public class AnimalsFragment extends Fragment {
 
                         @Override
                         public Object doInBackground() {
-                            AnimalSettingsManager.breedTypes = Parse_Settings.getAnimalsSettingsByName(
-                                    Contract.AnimalSettings.BREED_TABLE_NAME,
-                                    Contract.AnimalSettings.BREED_COLUMN);
-
-                            AnimalSettingsManager.subBreedTypes = Parse_Settings.getAnimalsSettingsByName(
-                                    Contract.AnimalSettings.SUB_BREED_TABLE_NAME,
-                                    Contract.AnimalSettings.SUB_BREED_COLUMN);
-
-                            AnimalSettingsManager.animalTypes = Parse_Settings.getAnimalsSettingsByName(
-                                    Contract.AnimalSettings.ANIMALS_TYPES_TABLE_NAME,
-                                    Contract.AnimalSettings.ANIMALS_TYPES_COLUMN);
-
+                            AnimalSettingsManager.downloadAndSetSettings();
                             return null;
                         }
 

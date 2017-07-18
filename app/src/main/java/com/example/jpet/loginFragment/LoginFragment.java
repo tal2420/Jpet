@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 
 import com.example.jpet.Constant;
 import com.example.jpet.DB_Model.ModelSql;
+import com.example.jpet.DB_Model.ParseDB.Parse_User;
 import com.example.jpet.DB_Model.Parse_model;
 import com.example.jpet.DEBUG;
 import com.example.jpet.MainActivity;
@@ -39,6 +40,7 @@ import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.parse.Parse;
 import com.parse.ParseUser;
 
 import org.json.JSONException;
@@ -80,7 +82,7 @@ public class LoginFragment extends Fragment {
 
         ParseUser.getCurrentUser().logOut();
 
-        ((MainActivity)getActivity()).getSupportActionBar().setTitle("LogIn");
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("LogIn");
 
 
         barButtons = (LinearLayout) getActivity().findViewById(R.id.bar_buttons);
@@ -150,7 +152,8 @@ public class LoginFragment extends Fragment {
                                                     Parse_model.getInstance().getUserClass().set_userPic(profilePic);
                                                 }
 
-                                                new FaceBookLogin().execute();
+//                                                new FaceBookLogin().execute();
+                                                new IsUserExists().execute();
                                             }
 
                                             @Override
@@ -198,12 +201,16 @@ public class LoginFragment extends Fragment {
             String profilePicturePath = sharedPreferences.getString(Constant.FACEBOOK_USER_DETAILS.PROFILE_PICTURE_PATH_STRING, null);
             Bitmap userProfilePicture = CameraHelper.loadImageFromStorage(profilePicturePath);
 
-            Parse_model.getInstance().getUserClass().set_userName(userName);
-            Parse_model.getInstance().getUserClass().set_password(password);
-            Parse_model.getInstance().getUserClass().set_email(email);
-            Parse_model.getInstance().getUserClass().set_userPic(userProfilePicture);
+            if (userName != null && password != null && email != null) {
+                Parse_model.getInstance().getUserClass().set_userName(userName);
+                Parse_model.getInstance().getUserClass().set_password(password);
+                Parse_model.getInstance().getUserClass().set_email(email);
+                Parse_model.getInstance().getUserClass().set_userPic(userProfilePicture);
 
-            new LoggingIn().execute(email, password);
+                new LoggingIn().execute(email, password);
+            }
+
+
         } else {
             DEBUG.MSG(getClass(), "FAILED login to facebook with profile");
         }
@@ -349,6 +356,26 @@ public class LoginFragment extends Fragment {
                 Parse_model.getInstance().getUserClass().set_isOn(false);
 //                progressDialog.hide();
                 errorDialog();
+            }
+        }
+    }
+
+    private class IsUserExists extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return Parse_User.isUserExist(Parse_model.getInstance().getUserClass().get_email());
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if (aBoolean) {
+                new LoggingIn().execute(
+                        Parse_model.getInstance().getUserClass()._email,
+                        Parse_model.getInstance().getUserClass()._password
+                );
+            } else {
+                new FaceBookLogin().execute();
             }
         }
     }

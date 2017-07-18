@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,6 +44,7 @@ import com.example.jpet.objects.Animal;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -183,6 +185,54 @@ public class AnimalRegistrationFragment extends Fragment {
                 AnimalSettingsManager.subBreedTypes.toArray(new String[AnimalSettingsManager.subBreedTypes.size()])
         );
         subBreedSpinner.setAdapter(subBreedAdapter);
+
+        animalTypesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<String> breeds = AnimalSettingsManager.getBreedsByFather((String)animalTypesSpinner.getSelectedItem());
+
+                breedAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        breeds.toArray(new String[breeds.size()])
+                );
+                breedSpinner.setAdapter(breedAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ArrayList<String> breeds = AnimalSettingsManager.getBreedsByFather((String)animalTypesSpinner.getSelectedItem());
+
+                breedAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        breeds.toArray(new String[breeds.size()])
+                );
+                breedSpinner.setAdapter(breedAdapter);
+            }
+        });
+
+        breedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<String> subBreeds = AnimalSettingsManager.getSubBreedsByFather((String)breedSpinner.getSelectedItem());
+
+                subBreedAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        subBreeds.toArray(new String[subBreeds.size()])
+                );
+                subBreedSpinner.setAdapter(subBreedAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ArrayList<String> subBreeds = AnimalSettingsManager.getSubBreedsByFather((String)breedSpinner.getSelectedItem());
+
+                subBreedAdapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        subBreeds.toArray(new String[subBreeds.size()])
+                );
+                subBreedSpinner.setAdapter(subBreedAdapter);
+            }
+        });
 
         pedigreeTakePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override

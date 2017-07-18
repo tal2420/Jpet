@@ -145,6 +145,15 @@ public class HomeFragment extends Fragment {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        ArrayList<PostClass> postsToDelete = new ArrayList<>();
+                        for (int i = 0; i < postsArrayListTemp.size() - 1; i++) {
+                            for (int j = i + 1; j < postsArrayListTemp.size(); j++) {
+                                if (postsArrayListTemp.get(i).getObjectID().equals(postsArrayListTemp.get(j).getObjectID())) {
+                                    postsToDelete.add(postsArrayListTemp.get(i));
+                                }
+                            }
+                        }
+                        postsArrayListTemp.removeAll(postsToDelete);
 
                         for (Iterator<PostClass> it = postsArrayListTemp.iterator(); it.hasNext();) {
                             PostClass post = it.next();
@@ -155,6 +164,10 @@ public class HomeFragment extends Fragment {
                                     if (animal.shouldSeePost(post)) {
                                         shouldSeePost = true;
                                     }
+                                }
+
+                                if (Parse_model.getInstance().getUserClass().isAdmin()) {
+                                    shouldSeePost = true;
                                 }
 
                                 if (!shouldSeePost) {

@@ -13,6 +13,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -52,6 +53,7 @@ import com.example.jpet.Network.Network;
 import com.example.jpet.R;
 import com.example.jpet.Search.SearchFragment;
 import com.example.jpet.fragments.AnimalsFragment;
+import com.example.jpet.helpers.ResourceHelper;
 import com.example.jpet.objects.Animal;
 
 import java.io.ByteArrayOutputStream;
@@ -427,6 +429,10 @@ public class ProfileFragment extends Fragment {
                         Parse_model.getInstance().getUserClass().set_userId("");
                         Parse_model.getInstance().getUserClass().set_isOn(false);
                         Parse_model.getInstance().getUserClass().set_userPic(null);
+                        Parse_model.getInstance().getUserClass().setAdmin(false);
+
+                        SharedPreferences sharedPreferences = ResourceHelper.getSharedPreferences();
+                        sharedPreferences.edit().clear().apply();
                     }
                 });
 
