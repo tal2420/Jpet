@@ -103,6 +103,7 @@ public class AnimalRegistrationFragment extends Fragment {
     final int GALLERY = 3;
 
     ImageType currentImageType;
+
     private enum ImageType {
         Pedigree, Champion, ProfilePicture, Trained
     }
@@ -413,8 +414,6 @@ public class AnimalRegistrationFragment extends Fragment {
                 });
             }
         });
-
-        ((MainActivity) getActivity()).hidePanelBar();
 
         if (animalPositionInArray >= 0) {
             registerButton.setText("UPDATE PET");

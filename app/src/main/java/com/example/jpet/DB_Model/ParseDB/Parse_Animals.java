@@ -161,6 +161,113 @@ public class Parse_Animals {
         return false;
     }
 
+    public static ArrayList<Animal> getAllAnimals() {
+        ArrayList<Animal> animals = new ArrayList<>();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(Contract.Animal.QUERY_NAME_STRING);
+        try {
+            List<ParseObject> animalsObjects = query.find();
+            for (ParseObject animalObject : animalsObjects) {
+
+                Animal animal = new Animal(animalObject.getObjectId());
+
+                if (animalObject.containsKey(Contract.Animal.NAME_STRING)) {
+                    String petName = animalObject.getString(Contract.Animal.NAME_STRING);
+                    DEBUG.MSG(Parse_Animals.class, "animal name exists = " + petName);
+                    animal.setPetName(petName);
+                } else {
+                    DEBUG.MSG(Parse_Animals.class, "animal name NOT exists");
+                }
+
+                if (animalObject.containsKey(Contract.Animal.USER_EMAIL_STRING)) {
+                    animal.setEmail(animalObject.getString(Contract.Animal.USER_EMAIL_STRING));
+                }
+
+                if (animalObject.containsKey(Contract.Animal.SEX_STRING)) {
+                    animal.setSex(animalObject.getString(Contract.Animal.SEX_STRING));
+                }
+
+                if (animalObject.containsKey(Contract.Animal.TYPE_STRING)) {
+                    animal.setPetType(animalObject.getString(Contract.Animal.TYPE_STRING));
+                }
+
+                if (animalObject.containsKey(Contract.Animal.BREED_STRING)) {
+                    animal.setBreed(animalObject.getString(Contract.Animal.BREED_STRING));
+                }
+
+                if (animalObject.containsKey(Contract.Animal.SUB_BREED_STRING)) {
+                    animal.setSubBreed(animalObject.getString(Contract.Animal.SUB_BREED_STRING));
+                }
+
+                if (animalObject.containsKey(Contract.Animal.WEIGHT_INT)) {
+                    animal.setWeight(animalObject.getInt(Contract.Animal.WEIGHT_INT));
+                }
+
+                if (animalObject.containsKey(Contract.Animal.HEIGHT_INT)) {
+                    animal.setHeight(animalObject.getInt(Contract.Animal.HEIGHT_INT));
+                }
+
+                if (animalObject.containsKey(Contract.Animal.BIRTHDAY_DATE_LONG)) {
+                    animal.setBirthdayInMilliSec(animalObject.getLong(Contract.Animal.BIRTHDAY_DATE_LONG));
+                }
+
+                if (animalObject.containsKey(Contract.Animal.IS_PEDIGREE_BOOLEAN)) {
+                    animal.setPedigree(animalObject.getBoolean(Contract.Animal.IS_PEDIGREE_BOOLEAN));
+                }
+//                if (animalObject.containsKey(Contract.Animal.PEDIGREE_CERTIFICATE_PICTURE_FILE)) {
+//                    animal.setPetName(animalObject.getString(Contract.Animal.PEDIGREE_CERTIFICATE_PICTURE_FILE));
+//                }
+
+                if (animalObject.containsKey(Contract.Animal.IS_TRAINED_BOOLEAN)) {
+                    animal.setTrained(animalObject.getBoolean(Contract.Animal.IS_TRAINED_BOOLEAN));
+                }
+//                if (animalObject.containsKey(Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE)) {
+//                    animal.setPetName(animalObject.getString(Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE));
+//                }
+
+                if (animalObject.containsKey(Contract.Animal.IS_CHAMPION_BOOLEAN)) {
+                    animal.setChampion(animalObject.getBoolean(Contract.Animal.IS_CHAMPION_BOOLEAN));
+                }
+//                if (animalObject.containsKey(Contract.Animal.CHAMPION_CERTIFICATE_PICTURE_FILE)) {
+//                    animal.setPetName(animalObject.getString(Contract.Animal.CHAMPION_CERTIFICATE_PICTURE_FILE));
+//                }
+
+                if (animalObject.containsKey(Contract.Animal.IS_NEUTER_BOOLEAN)) {
+                    animal.setNeutered(animalObject.getBoolean(Contract.Animal.IS_NEUTER_BOOLEAN));
+                }
+
+                if (animalObject.containsKey(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN)) {
+                    animal.setShouldSendBreedingOffers(animalObject.getBoolean(Contract.Animal.SHOULD_SEND_BREEDING_OFFERS_BOOLEAN));
+                }
+
+                if (animalObject.containsKey(Contract.Animal.PROFILE_PICTURE_FILE)) {
+                    Bitmap photo = getAnimalPicture(animalObject.getObjectId(), Contract.Animal.PROFILE_PICTURE_FILE);
+                    animal.setPhoto(photo);
+                }
+
+                if (animalObject.containsKey(Contract.Animal.PEDIGREE_CERTIFICATE_PICTURE_FILE)) {
+                    Bitmap pedigreePhoto = getAnimalPicture(animalObject.getObjectId(), Contract.Animal.PEDIGREE_CERTIFICATE_PICTURE_FILE);
+                    animal.setPedigreeCertificatePicture(pedigreePhoto);
+                }
+
+                if (animalObject.containsKey(Contract.Animal.CHAMPION_CERTIFICATE_PICTURE_FILE)) {
+                    Bitmap championPhoto = getAnimalPicture(animalObject.getObjectId(), Contract.Animal.CHAMPION_CERTIFICATE_PICTURE_FILE);
+                    animal.setPhoto(championPhoto);
+                }
+
+                if (animalObject.containsKey(Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE)) {
+                    Bitmap trainedPhoto = getAnimalPicture(animalObject.getObjectId(), Contract.Animal.TRAINED_CERTIFICATE_PICTUE_FILE);
+                    animal.setTrainingCertificatePicture(trainedPhoto);
+                }
+
+                animals.add(animal);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return animals;
+    }
+
     public static ArrayList<Animal> getAllAnimalsByEmail(String email) {
         ArrayList<Animal> animals = new ArrayList<>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Contract.Animal.QUERY_NAME_STRING);
@@ -177,6 +284,10 @@ public class Parse_Animals {
                     animal.setPetName(petName);
                 } else {
                     DEBUG.MSG(Parse_Animals.class, "animal name NOT exists");
+                }
+
+                if (animalObject.containsKey(Contract.Animal.USER_EMAIL_STRING)) {
+                    animal.setEmail(animalObject.getString(Contract.Animal.USER_EMAIL_STRING));
                 }
 
                 if (animalObject.containsKey(Contract.Animal.SEX_STRING)) {

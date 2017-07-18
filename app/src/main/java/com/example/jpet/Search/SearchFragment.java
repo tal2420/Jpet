@@ -36,6 +36,7 @@ import com.example.jpet.MainActivity;
 import com.example.jpet.R;
 import com.example.jpet.Search.Algorithem.DataSet;
 import com.example.jpet.Search.Algorithem.SortUserPostsByPriority;
+import com.example.jpet.fragments.FilterFragment;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
@@ -237,11 +238,13 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_item_search: {
-
-
+            case R.id.menu_item_search:
                 break;
-            }
+
+
+            case R.id.filter_action:
+                ((MainActivity)getActivity()).openNewFrag(new FilterFragment());
+                break;
         }
 
 

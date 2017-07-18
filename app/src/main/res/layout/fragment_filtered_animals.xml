@@ -1,0 +1,33 @@
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jpet.fragments.FilteredAnimalsFragment">
+
+    <TextView
+        android:id="@+id/headline"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Animals"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_heightPercent="6%"
+        app:layout_marginTopPercent="1%" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_below="@+id/headline"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/animals_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headline"
+        android:layout_marginTop="1dp"/>
+
+</android.support.percent.PercentRelativeLayout>

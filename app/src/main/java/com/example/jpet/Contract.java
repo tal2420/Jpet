@@ -16,6 +16,7 @@ public class Contract {
     }
 
     public class AnimalSettings {
+        public static final String ANY = "any";
 
         public static final String ANIMALS_TYPES_TABLE_NAME = "AnimalTypes";
         public static final String ANIMALS_TYPES_COLUMN = "types";

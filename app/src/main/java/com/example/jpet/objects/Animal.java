@@ -11,14 +11,18 @@ import com.parse.ParseObject;
 
 public class Animal {
 
+    String email;
+
     String animalId;
 
     String petName;
 
     String sex;
     String petType;
+
     String breed;
     String subBreed;
+
     int weight;
     int height;
     long birthdayInMilliSec;
@@ -52,6 +56,15 @@ public class Animal {
                 post.getPetType().equals(petType)  ||
                 post.getBreed().equals(breed) ||
                 post.getSubBreed().equals(subBreed);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Animal setEmail(String email) {
+        this.email = email;
+        return this;
     }
 
     public String getAnimalId() {
@@ -214,5 +227,30 @@ public class Animal {
     public Animal setPhoto(Bitmap photo) {
         this.photo = photo;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "email='" + email + '\'' +
+                ", animalId='" + animalId + '\'' +
+                ", petName='" + petName + '\'' +
+                ", sex='" + sex + '\'' +
+                ", petType='" + petType + '\'' +
+                ", breed='" + breed + '\'' +
+                ", subBreed='" + subBreed + '\'' +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", birthdayInMilliSec=" + birthdayInMilliSec +
+                ", isPedigree=" + isPedigree +
+                ", pedigreeCertificatePicture=" + pedigreeCertificatePicture +
+                ", isTrained=" + isTrained +
+                ", trainingCertificatePicture=" + trainingCertificatePicture +
+                ", isChampion=" + isChampion +
+                ", championCertificatePicture=" + championCertificatePicture +
+                ", isNeutered=" + isNeutered +
+                ", shouldSendBreedingOffers=" + shouldSendBreedingOffers +
+                ", photo=" + photo +
+                '}';
     }
 }

@@ -1,0 +1,90 @@
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jpet.fragments.AnimalRegistrationFragment">
+
+    <TextView
+        android:id="@+id/headline"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Animal Search Filter"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_heightPercent="6%"
+        app:layout_marginTopPercent="1%" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_above="@+id/register"
+        android:layout_below="@+id/headline"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/sex_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <Spinner
+            android:id="@+id/animal_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <Spinner
+            android:id="@+id/breed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <Spinner
+            android:id="@+id/sub_breed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <CheckBox
+            android:id="@+id/pedigree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Does the animal pedigree?" />
+
+        <CheckBox
+            android:id="@+id/train"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Does the animal trained?" />
+
+        <CheckBox
+            android:id="@+id/champion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Does the animal champion?" />
+
+        <CheckBox
+            android:id="@+id/neutered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Does the animal neuter?" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/filter"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:text="Filter"
+        app:layout_heightPercent="13%" />
+
+</android.support.percent.PercentRelativeLayout>
